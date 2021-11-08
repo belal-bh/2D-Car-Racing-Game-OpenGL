@@ -8,14 +8,39 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-//Game Speed
-int FPS = 20;
+
+// game title
+char GAME_TITLE[] = "Car Racing Game";
+
+// created by
+char TEAM_TITLE[] = "G-X, CSE, PUST";
+
+// Starting Game Speed
+int INITIAL_FPS = 60;
+
+// Track Game Speed
+int FPS = INITIAL_FPS;
+
+// delta v is the increment rate of velocity
+int LEVEL_DELTA_V = 5;
+
+// Key delta v is the increment or decrement rate of velocity
+// by pressing key-UP or key-DOWN
+int KEY_DELTA_V = 2;
+
+// Increse level after getting a target score
+int LEVEL_UP_SCORE = 10;
+
 //Game Track
 int start=0;
 int gv=0;
+
+// Track level
 int level = 0;
+
 //Track Score
 int score = 0;
+
 //Form move track
 int roadDivTopMost = 0;
 int roadDivTop = 0;
@@ -32,7 +57,7 @@ int car3 = +70;
 int lrIndex3=0;
 //For Display TEXT
 const int font1=(int)GLUT_BITMAP_TIMES_ROMAN_24;
-const int font2=(int)GLUT_BITMAP_HELVETICA_18 ;
+const int font2=(int)GLUT_BITMAP_HELVETICA_18;
 const int font3=(int)GLUT_BITMAP_8_BY_13;
 char s[30];
 void renderBitmapString(float x, float y, void *font,const char *string){
@@ -42,58 +67,42 @@ void renderBitmapString(float x, float y, void *font,const char *string){
         glutBitmapCharacter(font, *c);
     }
 }
-void tree(int x, int y){
-    int newx=x;
-    int newy=y;
-    //Tree Left
-            //Bottom
-        glColor3f(0.871, 0.722, 0.529);
-        glBegin(GL_TRIANGLES);
-        glVertex2f(newx+11,newy+55);
-        glVertex2f(newx+12,newy+55-10);
-        glVertex2f(newx+10,newy+55-10);
-        glEnd();
-            //Up
-      glColor3f(0.133, 0.545, 0.133);
-        glBegin(GL_TRIANGLES);
-        glVertex2f(newx+11,newy+55+3);
-        glVertex2f(newx+12+3,newy+55-3);
-        glVertex2f(newx+10-3,newy+55-3);
-        glEnd();
-}
+
 void startGame(){
     //Road
     glColor3f(0.412, 0.412, 0.412);
     glBegin(GL_POLYGON);
-    glVertex2f(20,0);
-    glVertex2f(20,100);
-    glVertex2f(80,100);
-    glVertex2f(80,0);
+        glVertex2f(20,0);
+        glVertex2f(20,100);
+        glVertex2f(80,100);
+        glVertex2f(80,0);
     glEnd();
+
     //Road Left Border
     glColor3f(1.000, 1.000, 1.000);
     glBegin(GL_POLYGON);
-    glVertex2f(20,0);
-    glVertex2f(20,100);
-    glVertex2f(23,100);
-    glVertex2f(23,0);
+        glVertex2f(20,0);
+        glVertex2f(20,100);
+        glVertex2f(23,100);
+        glVertex2f(23,0);
     glEnd();
+
     //Road Right Border
     glColor3f(1.000, 1.000, 1.000);
     glBegin(GL_POLYGON);
-    glVertex2f(77,0);
-    glVertex2f(77,100);
-    glVertex2f(80,100);
-    glVertex2f(80,0);
+        glVertex2f(77,0);
+        glVertex2f(77,100);
+        glVertex2f(80,100);
+        glVertex2f(80,0);
     glEnd();
     //Road Middel Border
-      //TOP
-    glColor3f(1.000, 1.000, 0.000);
+        //TOP
+    glColor3f(1.000, 1.000, 1.000);
     glBegin(GL_POLYGON);
-    glVertex2f(48,roadDivTop+80);
-    glVertex2f(48,roadDivTop+100);
-    glVertex2f(52,roadDivTop+100);
-    glVertex2f(52,roadDivTop+80);
+        glVertex2f(48,roadDivTop+80);
+        glVertex2f(48,roadDivTop+100);
+        glVertex2f(52,roadDivTop+100);
+        glVertex2f(52,roadDivTop+80);
     glEnd();
     roadDivTop--;
     if(roadDivTop<-100){
@@ -101,12 +110,12 @@ void startGame(){
         score++;
     }
         //Midle
-    glColor3f(1.000, 1.000, 0.000);
+    //glColor3f(0.000, 1.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(48,roadDivMdl+40);
-    glVertex2f(48,roadDivMdl+60);
-    glVertex2f(52,roadDivMdl+60);
-    glVertex2f(52,roadDivMdl+40);
+        glVertex2f(48,roadDivMdl+40);
+        glVertex2f(48,roadDivMdl+60);
+        glVertex2f(52,roadDivMdl+60);
+        glVertex2f(52,roadDivMdl+40);
     glEnd();
     roadDivMdl--;
     if(roadDivMdl<-60){
@@ -114,25 +123,26 @@ void startGame(){
         score++;
     }
         //Bottom
-    glColor3f(1.000, 1.000, 0.000);
+    //glColor3f(1.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(48,roadDivBtm+0);
-    glVertex2f(48,roadDivBtm+20);
-    glVertex2f(52,roadDivBtm+20);
-    glVertex2f(52,roadDivBtm+0);
+        glVertex2f(48,roadDivBtm+0);
+        glVertex2f(48,roadDivBtm+20);
+        glVertex2f(52,roadDivBtm+20);
+        glVertex2f(52,roadDivBtm+0);
     glEnd();
     roadDivBtm--;
     if(roadDivBtm<-20){
         roadDivBtm=100;
         score++;
     }
+
     //Score Board
-     glColor3f(0.000, 0.000, 0.000);
+    glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(80,97);
-    glVertex2f(100,97);
-    glVertex2f(100,98-8);
-    glVertex2f(80,98-8);
+        glVertex2f(80,97);
+        glVertex2f(100,97);
+        glVertex2f(100,98-8);
+        glVertex2f(80,98-8);
     glEnd();
     //Print Score
     char buffer [50];
@@ -145,11 +155,11 @@ void startGame(){
     glColor3f(0.000, 1.000, 0.000);
     renderBitmapString(80.5,95-2,(void *)font3,buffer1);
     //level Print
-    if(score % 50 == 0){
-        int last = score /50;
+    if(score % LEVEL_UP_SCORE == 0){
+        int last = score /LEVEL_UP_SCORE;
         if(last!=level){
-            level = score /50;
-            FPS=FPS+2;
+            level = score /LEVEL_UP_SCORE;
+            FPS=FPS+LEVEL_DELTA_V;
         }
     }
     char level_buffer [50];
@@ -158,54 +168,54 @@ void startGame(){
     renderBitmapString(80.5,95-4,(void *)font3,level_buffer);
     //Increse Speed With level
     //MAIN car
-        //Front Tire
+    //Front Tire
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex+26-2,5);
-    glVertex2f(lrIndex+26-2,7);
-    glVertex2f(lrIndex+30+2,7);
-    glVertex2f(lrIndex+30+2,5);
+        glVertex2f(lrIndex+26-2,5);
+        glVertex2f(lrIndex+26-2,7);
+        glVertex2f(lrIndex+30+2,7);
+        glVertex2f(lrIndex+30+2,5);
     glEnd();
         //Back Tire
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex+26-2,1);
-    glVertex2f(lrIndex+26-2,3);
-    glVertex2f(lrIndex+30+2,3);
-    glVertex2f(lrIndex+30+2,1);
+        glVertex2f(lrIndex+26-2,1);
+        glVertex2f(lrIndex+26-2,3);
+        glVertex2f(lrIndex+30+2,3);
+        glVertex2f(lrIndex+30+2,1);
     glEnd();
         //Car Body
     glColor3f(0.678, 1.000, 0.184);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex+26,1);
-    glVertex2f(lrIndex+26,8);
-    glColor3f(0.000, 0.545, 0.545);
-    glVertex2f(lrIndex+28,10);
-    glVertex2f(lrIndex+30,8);
-    glVertex2f(lrIndex+30,1);
+        glVertex2f(lrIndex+26,1);
+        glVertex2f(lrIndex+26,8);
+        glColor3f(0.000, 0.545, 0.545);
+        glVertex2f(lrIndex+28,10);
+        glVertex2f(lrIndex+30,8);
+        glVertex2f(lrIndex+30,1);
     glEnd();
     //Opposite car 1
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex1+26-2,car1+100-4);
-    glVertex2f(lrIndex1+26-2,car1+100-6);
-    glVertex2f(lrIndex1+30+2,car1+100-6);
-    glVertex2f(lrIndex1+30+2,car1+100-4);
+        glVertex2f(lrIndex1+26-2,car1+100-4);
+        glVertex2f(lrIndex1+26-2,car1+100-6);
+        glVertex2f(lrIndex1+30+2,car1+100-6);
+        glVertex2f(lrIndex1+30+2,car1+100-4);
     glEnd();
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex1+26-2,car1+100);
-    glVertex2f(lrIndex1+26-2,car1+100-2);
-    glVertex2f(lrIndex1+30+2,car1+100-2);
-    glVertex2f(lrIndex1+30+2,car1+100);
+        glVertex2f(lrIndex1+26-2,car1+100);
+        glVertex2f(lrIndex1+26-2,car1+100-2);
+        glVertex2f(lrIndex1+30+2,car1+100-2);
+        glVertex2f(lrIndex1+30+2,car1+100);
     glEnd();
     glColor3f(1.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex1+26,car1+100);
-    glVertex2f(lrIndex1+26,car1+100-7);
-    glVertex2f(lrIndex1+28,car1+100-9);
-    glVertex2f(lrIndex1+30,car1+100-7);
-    glVertex2f(lrIndex1+30,car1+100);
+        glVertex2f(lrIndex1+26,car1+100);
+        glVertex2f(lrIndex1+26,car1+100-7);
+        glVertex2f(lrIndex1+28,car1+100-9);
+        glVertex2f(lrIndex1+30,car1+100-7);
+        glVertex2f(lrIndex1+30,car1+100);
     glEnd();
     car1--;
     if(car1<-100){
@@ -220,25 +230,25 @@ void startGame(){
     //Opposite car 2
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex2+26-2,car2+100-4);
-    glVertex2f(lrIndex2+26-2,car2+100-6);
-    glVertex2f(lrIndex2+30+2,car2+100-6);
-    glVertex2f(lrIndex2+30+2,car2+100-4);
+        glVertex2f(lrIndex2+26-2,car2+100-4);
+        glVertex2f(lrIndex2+26-2,car2+100-6);
+        glVertex2f(lrIndex2+30+2,car2+100-6);
+        glVertex2f(lrIndex2+30+2,car2+100-4);
     glEnd();
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex2+26-2,car2+100);
-    glVertex2f(lrIndex2+26-2,car2+100-2);
-    glVertex2f(lrIndex2+30+2,car2+100-2);
-    glVertex2f(lrIndex2+30+2,car2+100);
+        glVertex2f(lrIndex2+26-2,car2+100);
+        glVertex2f(lrIndex2+26-2,car2+100-2);
+        glVertex2f(lrIndex2+30+2,car2+100-2);
+        glVertex2f(lrIndex2+30+2,car2+100);
     glEnd();
     glColor3f(0.294, 0.000, 0.510);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex2+26,car2+100);
-    glVertex2f(lrIndex2+26,car2+100-7);
-    glVertex2f(lrIndex2+28,car2+100-9);
-    glVertex2f(lrIndex2+30,car2+100-7);
-    glVertex2f(lrIndex2+30,car2+100);
+        glVertex2f(lrIndex2+26,car2+100);
+        glVertex2f(lrIndex2+26,car2+100-7);
+        glVertex2f(lrIndex2+28,car2+100-9);
+        glVertex2f(lrIndex2+30,car2+100-7);
+        glVertex2f(lrIndex2+30,car2+100);
     glEnd();
     car2--;
     if(car2<-100){
@@ -253,25 +263,27 @@ void startGame(){
     //Opposite car 3
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex3+26-2,car3+100-4);
-    glVertex2f(lrIndex3+26-2,car3+100-6);
-    glVertex2f(lrIndex3+30+2,car3+100-6);
-    glVertex2f(lrIndex3+30+2,car3+100-4);
+        glVertex2f(lrIndex3+26-2,car3+100-4);
+        glVertex2f(lrIndex3+26-2,car3+100-6);
+        glVertex2f(lrIndex3+30+2,car3+100-6);
+        glVertex2f(lrIndex3+30+2,car3+100-4);
     glEnd();
+
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex3+26-2,car3+100);
-    glVertex2f(lrIndex3+26-2,car3+100-2);
-    glVertex2f(lrIndex3+30+2,car3+100-2);
-    glVertex2f(lrIndex3+30+2,car3+100);
+        glVertex2f(lrIndex3+26-2,car3+100);
+        glVertex2f(lrIndex3+26-2,car3+100-2);
+        glVertex2f(lrIndex3+30+2,car3+100-2);
+        glVertex2f(lrIndex3+30+2,car3+100);
     glEnd();
+
     glColor3f(1.000, 0.271, 0.000);
     glBegin(GL_POLYGON);
-    glVertex2f(lrIndex3+26,car3+100);
-    glVertex2f(lrIndex3+26,car3+100-7);
-    glVertex2f(lrIndex3+28,car3+100-9);
-    glVertex2f(lrIndex3+30,car3+100-7);
-    glVertex2f(lrIndex3+30,car3+100);
+        glVertex2f(lrIndex3+26,car3+100);
+        glVertex2f(lrIndex3+26,car3+100-7);
+        glVertex2f(lrIndex3+28,car3+100-9);
+        glVertex2f(lrIndex3+30,car3+100-7);
+        glVertex2f(lrIndex3+30,car3+100);
     glEnd();
     car3--;
     if(car3<-100){
@@ -288,146 +300,165 @@ void fristDesign(){
         //Road Backgound
         glColor3f(0.000, 0.392, 0.000);
         glBegin(GL_POLYGON);
-        glVertex2f(0,55);
-        glVertex2f(100,55);
-        glColor3f(0.604, 0.804, 0.196);
-        glVertex2f(100,50-50);
-        glVertex2f(0,50-50);
+            glVertex2f(0,55);
+            glVertex2f(100,55);
+            glColor3f(0.604, 0.804, 0.196);
+            glVertex2f(100,50-50);
+            glVertex2f(0,50-50);
         glEnd();
         //Road Design In Front Page
         glColor3f(00, 0, 0);
         glBegin(GL_TRIANGLES);
-        glVertex2f(32-2+21,55);
-        glVertex2f(32+58,50-50);
-        glVertex2f(32-22,50-50);
+            glVertex2f(32-2+21,55);
+            glVertex2f(32+58,50-50);
+            glVertex2f(32-22,50-50);
         glEnd();
         //Road Midle
         glColor3f(1, 1, 1);
         glBegin(GL_TRIANGLES);
-        glVertex2f(32-2+21,55);
-        glVertex2f(50+2,50-50);
-        glVertex2f(50-2,50-50);
+            glVertex2f(32-2+21,55);
+            glVertex2f(50+2,50-50);
+            glVertex2f(50-2,50-50);
         glEnd();
          //Road Sky
         glColor3f(0.000, 0.749, 1.000);
         glBegin(GL_POLYGON);
-        glVertex2f(100,100);
-        glVertex2f(0,100);
-        glColor3f(0.686, 0.933, 0.933);
-        glVertex2f(0,55);
-        glVertex2f(100,55);
+            glVertex2f(100,100);
+            glVertex2f(0,100);
+            glColor3f(0.686, 0.933, 0.933);
+            glVertex2f(0,55);
+            glVertex2f(100,55);
         glEnd();
         //Hill 1
         glColor3f(0.235, 0.702, 0.443);
         glBegin(GL_TRIANGLES);
-        glVertex2f(20,55+10);
-        glVertex2f(20+7,55);
-        glVertex2f(0,55);
+            glVertex2f(20,55+10);
+            glVertex2f(20+7,55);
+            glVertex2f(0,55);
         glEnd();
         //Hill 2
         glColor3f(0.000, 0.502, 0.000);
-        glBegin(GL_TRIANGLES);
-        glVertex2f(20+15,55+12);
-        glVertex2f(20+20+10,55);
-        glVertex2f(0+10,55);
+            glBegin(GL_TRIANGLES);
+            glVertex2f(20+15,55+12);
+            glVertex2f(20+20+10,55);
+            glVertex2f(0+10,55);
         glEnd();
         //Hill 4
         glColor3f(0.235, 0.702, 0.443);
         glBegin(GL_TRIANGLES);
-        glVertex2f(87,55+10);
-        glVertex2f(100,55);
-        glVertex2f(60,55);
+            glVertex2f(87,55+10);
+            glVertex2f(100,55);
+            glVertex2f(60,55);
         glEnd();
          //Hill 3
         glColor3f(0.000, 0.502, 0.000);
         glBegin(GL_TRIANGLES);
-        glVertex2f(70,70);
-        glVertex2f(90,55);
-        glVertex2f(50,55);
+            glVertex2f(70,70);
+            glVertex2f(90,55);
+            glVertex2f(50,55);
         glEnd();
-        //Tree Left
-            //Bottom
-        glColor3f(0.871, 0.722, 0.529);
-        glBegin(GL_TRIANGLES);
-        glVertex2f(11,55);
-        glVertex2f(12,55-10);
-        glVertex2f(10,55-10);
-        glEnd();
-            //Up
-      glColor3f(0.133, 0.545, 0.133);
-        glBegin(GL_TRIANGLES);
-        glVertex2f(11,55+3);
-        glVertex2f(12+3,55-3);
-        glVertex2f(10-3,55-3);
-        glEnd();
-        tree(5,-15);
-        tree(9,5);
-        tree(85,9);
-        tree(75,-5);
-        //Menu Place Holder
-        glColor3f(0.098, 0.098, 0.439);
-        glBegin(GL_POLYGON);
-        glVertex2f(32-4,50+5+10);
-        glVertex2f(32+46,50+5+10);
-        glVertex2f(32+46,50-15+10);
-        glVertex2f(32-4,50-15+10);
-        glEnd();
-        glColor3f(00, 0, 0.000);
-        glBegin(GL_POLYGON);
-        glVertex2f(32-4,50+5+10);
-        glVertex2f(32+46,50+5+10);
-        glVertex2f(32+46,50+4+10);
-        glVertex2f(32-4,50+4+10);
-        glEnd();
-        glBegin(GL_POLYGON);
-        glVertex2f(32+45,50+5+10);
-        glVertex2f(32+46,50+5+10);
-        glVertex2f(32+46,50-15+10);
-        glVertex2f(32+45,50-15+10);
-        glEnd();
-        glBegin(GL_POLYGON);
-        glVertex2f(32-4,50-14+10);
-        glVertex2f(32+46,50-14+10);
-        glVertex2f(32+46,50-15+10);
-        glVertex2f(32-4,50-15+10);
-        glEnd();
-        glBegin(GL_POLYGON);
-        glVertex2f(32-4,50+5+10);
-        glVertex2f(32-5,50+5+10);
-        glVertex2f(32-5,50-15+10);
-        glVertex2f(32-4,50-15+10);
-        glEnd();
+
         //Text Information in Frist Page
+        int title_posy = 80;
+
+        //glColor3f(0.50, 0.60, 1.00);
+        glBegin(GL_POLYGON);
+            glColor3f(1.0f, 0.99f, 1.0f); // make this vertex purple
+            glVertex2f(40-4,title_posy+5+2);
+            glColor3f(1.0f, 0.99f, 0.0f); // make this vertex red
+            glVertex2f(40+30,title_posy+5+2);
+            glColor3f(0.0f, 0.99f, 0.0f); // make this vertex green
+            //glColor3f(1.0f, 0.99f, 0.0f); // make this vertex red
+            glVertex2f(40+30,title_posy-7+2);
+            //glColor3f(1.0f, 1.1f, 0.0f); // make this vertex yellow
+            glColor3f(1.0f, 0.50f, 1.0f); // make this vertex purple
+            glVertex2f(40-4,title_posy-7+2);
+        glEnd();
+
+        glColor3f(0.000, 0.000, 0.000);
+        renderBitmapString(40, title_posy,(void *)font1, GAME_TITLE);
+
+        // relative position of "Help" box
+        int help_rel_posy = title_posy-30;
+
+        // if game is over
         if(gv==1){
-            glColor3f(1.000, 0.000, 0.000);
-            renderBitmapString(35,60+10,(void *)font1,"GAME OVER");
-            glColor3f(1.000, 0.000, 0.000);
+            int score_board_h = 10;
+            int score_board_rel_posy = title_posy - 20;
+
+            //Score Board Place Holder
+            //glColor3f(0.098, 0.098, 0.439);
+            glColor3f(0.20, 0.50, 0.60);
+            glBegin(GL_POLYGON);
+                glColor3f(1.0f, 0.99f, 1.0f);
+                glVertex2f(40-4,score_board_rel_posy+5+10);
+                glColor3f(1.0f, 0.99f, 0.0f);
+                glVertex2f(40+26+4,score_board_rel_posy+5+10);
+                glColor3f(0.0f, 0.99f, 0.0f);
+                glVertex2f(32+46,score_board_rel_posy-15+10);
+                glColor3f(1.0f, 0.50f, 1.0f);
+                glVertex2f(32-4,score_board_rel_posy-15+10);
+            glEnd();
+
+            glColor3f(0.000, 0.000, 0.000);
+            renderBitmapString(43,score_board_rel_posy+score_board_h,(void *)font1,"GAME OVER");
+            glColor3f(0.000, 0.000, 0.000);
             char buffer2 [50];
             sprintf (buffer2, "Your Score is : %d", score);
-            renderBitmapString(33,60-4+10,(void *)font1,buffer2);
+            renderBitmapString(41,score_board_rel_posy+score_board_h-4,(void *)font1,buffer2);
+            glColor3f(0.000, 0.000, 0.000);
+            char buffer3 [50];
+            sprintf (buffer3, "Max Level is : %d", level);
+            renderBitmapString(41,score_board_rel_posy+score_board_h-8,(void *)font1,buffer3);
+
+            // update relative help box
+            help_rel_posy = help_rel_posy - score_board_h;
         }
-        glColor3f(1.000, 1.000, 0.000);
-        renderBitmapString(30,80,(void *)font1,"2D Car Racing Game ");
+
+        //Help Menu Place Holder
+        glColor3f(1.000, 1.000, 1.000);
+        glBegin(GL_LINES);
+            glVertex2f(32-4, help_rel_posy+5+10);
+            glVertex2f(32+46, help_rel_posy+5+10);
+        glEnd();
+        glColor3f(0.098, 0.098, 0.439);
+        glBegin(GL_POLYGON);
+            glVertex2f(32-4,help_rel_posy+5+10);
+            glVertex2f(32+46,help_rel_posy+5+10);
+            glVertex2f(32+46,help_rel_posy-15+10);
+            glVertex2f(32-4,help_rel_posy-15+10);
+        glEnd();
+
         glColor3f(0.000, 1.000, 0.000);
-        renderBitmapString(30,50+1.5+10,(void *)font2,"Help:");
-        renderBitmapString(30,50+1.49+10,(void *)font2,"____");
+        renderBitmapString(30+15,help_rel_posy+1.5+10,(void *)font2,"Control Info");
+        glColor3f(1.000, 1.000, 1.000);
+        glPushAttrib(GL_ENABLE_BIT);
+        // glPushAttrib is done to return everything to normal after drawing
+        glLineStipple(1, 0xAAAA);  // [1]
+        glEnable(GL_LINE_STIPPLE);
+        glBegin(GL_LINES);
+            glVertex2f(32-4, help_rel_posy+1.30+10);
+            glVertex2f(32+46, help_rel_posy+1.30+10);
+        glEnd();
+        glPopAttrib();
+        // renderBitmapString(30+10,help_rel_posy+1.49+10,(void *)font2,"____");
         glColor3f(0.200, 1.000, 0.900);
-        renderBitmapString(30,48+10,(void *)font2,"Press SPACE to START New Game");
-        renderBitmapString(30,48-3+10,(void *)font2,"Press ESC to Exit");
+        renderBitmapString(30,help_rel_posy-2+10,(void *)font2,"Press SPACE to START New Game");
+        renderBitmapString(30,help_rel_posy-2-3+10,(void *)font2,"Press ESC to Exit");
         glColor3f(1.000, 1.000, 1.000);
-        renderBitmapString(30,49-6+10,(void *)font3,"Press UP Arrow Button to increase Speed");
-        renderBitmapString(30,49-8+10,(void *)font3,"Press DWON Arrow Button to decrease Speed");
-        renderBitmapString(30,49-10+10,(void *)font3,"Press RIGHT Arrow Button to turn Right");
-        renderBitmapString(30,49-12+10,(void *)font3,"Press LEFT Arrow Button to turn Left");
-        glColor3f(1.000, 1.000, 1.000);
-        renderBitmapString(60-5,50-40,(void *)font2,"Published By :-");
-        glColor3f(1.000, 0.000, 0.000);
-        renderBitmapString(60-5,50-43,(void *)font2,"Azzonika Tutorials");
+        renderBitmapString(30,help_rel_posy-1-6+10,(void *)font3,"Press UP Arrow Button to increase Speed");
+        renderBitmapString(30,help_rel_posy-1-8+10,(void *)font3,"Press DWON Arrow Button to decrease Speed");
+        renderBitmapString(30,help_rel_posy-1-10+10,(void *)font3,"Press RIGHT Arrow Button to turn Right");
+        renderBitmapString(30,help_rel_posy-1-12+10,(void *)font3,"Press LEFT Arrow Button to turn Left");
+        glColor3f(0.000, 1.000, 0.000);
+        renderBitmapString(60-5,50-40,(void *)font2,"Created By :");
+        glColor3f(1.000, 1.000, 0.000);
+        renderBitmapString(60-5,50-43,(void *)font2,TEAM_TITLE);
 }
 void display(){
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if(start==1){
-        // glClearColor(0.627, 0.322, 0.176,1);
+        //glClearColor(0.627, 0.322, 0.176,1);
         glClearColor(0.000, 0.392, 0.000,1);
         startGame();
     }
@@ -441,11 +472,11 @@ void display(){
 void spe_key(int key, int x, int y){
         switch (key) {
         case GLUT_KEY_DOWN:
-            if(FPS>(50+(level*2)))
-            FPS=FPS-2;
+            if(FPS>(LEVEL_UP_SCORE+(level*LEVEL_DELTA_V)))
+                FPS=FPS-KEY_DELTA_V;
             break;
         case GLUT_KEY_UP:
-            FPS=FPS+2;
+            FPS=FPS + KEY_DELTA_V;
             break;
         case GLUT_KEY_LEFT:
             if(lrIndex>=0){
@@ -474,7 +505,7 @@ void processKeys(unsigned char key, int x, int y) {
             if(start==0){
                 start = 1;
                 gv = 0;
-                FPS = 50;
+                FPS = INITIAL_FPS;
                 roadDivTopMost = 0;
                 roadDivTop = 0;
                 roadDivMdl = 0;
@@ -507,7 +538,7 @@ int main(int argc, char *argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
     glutInitWindowSize(800,600);
     glutInitWindowPosition(200,20);
-    glutCreateWindow("Car Racing Game");
+    glutCreateWindow(GAME_TITLE);
     glutDisplayFunc(display);
     glutSpecialFunc(spe_key);
     glutKeyboardFunc(processKeys );
