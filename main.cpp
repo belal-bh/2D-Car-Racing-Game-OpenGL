@@ -6,6 +6,7 @@
 #endif
 #include <stdlib.h>
 #include <stdio.h>
+#include <MMsystem.h>
 #include <iostream>
 #include <string>
 
@@ -13,20 +14,30 @@
 char GAME_TITLE[] = "Car Racing Game";
 
 // created by
-char TEAM_TITLE[] = "G-X, CSE, PUST";
+char TEAM_TITLE[] = "G-1, CSE, PUST";
 
+// Track game stage
+// 0: Initial, 1: racing, 2: Score board
+int LAST_STAGE = 0;
+int CURR_STAGE = 0;
+
+//Track Sound
+int SOUND_BOOL = 0;
+// sound file path
+char RACING_F[] = "G:\\My Drive\\academic\\cse42\\CG_4203\\lab\\2D-Car-Racing-Game-OpenGL\\racing-small.wav";
+char BEGIN_F[] = "G:\\My Drive\\academic\\cse42\\CG_4203\\lab\\2D-Car-Racing-Game-OpenGL\\relaxing-small.wav";
 // Starting Game Speed
-int INITIAL_FPS = 60;
+int INITIAL_FPS = 45;
 
 // Track Game Speed
 int FPS = INITIAL_FPS;
 
 // delta v is the increment rate of velocity
-int LEVEL_DELTA_V = 5;
+int LEVEL_DELTA_V = 3;
 
 // Key delta v is the increment or decrement rate of velocity
 // by pressing key-UP or key-DOWN
-int KEY_DELTA_V = 2;
+int KEY_DELTA_V = 1;
 
 // Increse level after getting a target score
 int LEVEL_UP_SCORE = 10;
@@ -68,7 +79,75 @@ void renderBitmapString(float x, float y, void *font,const char *string){
     }
 }
 
+void create_object(int x, int y){
+    int h = 6;
+    //Bottom
+    glColor3f(0.871, 0.722, 0.529);
+    glBegin(GL_TRIANGLES);
+        glVertex2f(x+5,y+h+3);
+        glVertex2f(x+6,y);
+        glVertex2f(x+4,y);
+    glEnd();
+    // Top
+    glColor3f(0.133, 0.545, 0.133);
+    glBegin(GL_POLYGON);
+        glVertex2f(x+6,y+h+6);
+        glVertex2f(x+8,y+h+4);
+        glVertex2f(x+7,y+h+4);
+        glVertex2f(x+10,y+h);
+
+        glVertex2f(x,y+h);
+        glVertex2f(x+1,y+h+4);
+        glVertex2f(x+2,y+h+4);
+        glVertex2f(x+4,y+h+7);
+    glEnd();
+}
+
+void create_cloud(int x, int y){
+    int h = 5;
+    glColor3f(0.901, 0.912, 0.999);
+    glBegin(GL_POLYGON);
+        glVertex2f(x+6,y+h+6);
+        glVertex2f(x+8,y+h+4);
+        glVertex2f(x+7,y+h+4);
+        glVertex2f(x+10,y+h);
+
+        glVertex2f(x+7,y+h-2);
+        glVertex2f(x+8,y+h-3);
+        glVertex2f(x+5,y+h-4);
+
+        glVertex2f(x+4,y+h-5);
+        glVertex2f(x+3,y+h-4);
+        glVertex2f(x+2,y+h-3);
+        glVertex2f(x+1,y+h-2);
+
+        glVertex2f(x,y+h);
+        glVertex2f(x+1,y+h+4);
+        glVertex2f(x+2,y+h+4);
+        glVertex2f(x+4,y+h+7);
+    glEnd();
+}
+
 void startGame(){
+    if(LAST_STAGE!=CURR_STAGE){
+        if(SOUND_BOOL==1){
+            PlaySound(NULL, NULL, SND_PURGE);
+            SOUND_BOOL = 0;
+        }
+        LAST_STAGE = CURR_STAGE;
+    }
+
+    if(SOUND_BOOL==0){
+        printf("Game Start!\n"); // BEGIN_F, RACING_F
+        SOUND_BOOL = PlaySound(TEXT(RACING_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
+        if (SOUND_BOOL){
+            SOUND_BOOL = 1;
+        }
+        //printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
+    }
+    /*
+    */
+
     //Road
     glColor3f(0.412, 0.412, 0.412);
     glBegin(GL_POLYGON);
@@ -325,6 +404,64 @@ void startGame(){
     }
 }
 void fristDesign(){
+    if(LAST_STAGE!=CURR_STAGE){
+        if(SOUND_BOOL==1){
+            PlaySound(NULL, 0, 0);
+            SOUND_BOOL = 0;
+        }
+        LAST_STAGE = CURR_STAGE;
+        SOUND_BOOL = PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
+        SOUND_BOOL = 1;
+    }
+    /*
+    if(SOUND_BOOL==0){
+        SOUND_BOOL = PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
+        //printf("SOUND_BOOL=%d\n", SOUND_BOOL);
+        if (SOUND_BOOL){
+            SOUND_BOOL = 1;
+        }
+        //printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
+    }
+
+    if(start==0 && gv==0){
+        printf("Main Menu!\n");
+        if(SOUND_BOOL==0){
+            SOUND_BOOL = PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
+            printf("SOUND_BOOL=%d\n", SOUND_BOOL);
+            if (SOUND_BOOL){
+                SOUND_BOOL = 1;
+            }
+            printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
+        }
+    }
+    else{
+        printf("Game Score!\n");
+
+        if(SOUND_BOOL==1){
+            SOUND_BOOL = PlaySound(NULL, NULL, SND_PURGE);
+            SOUND_BOOL = 0;
+            printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
+        }
+
+    }
+    */
+
+    /*
+    if(gv == 1 && SOUND_BOOL==0){
+        SOUND_BOOL = PlaySound(NULL, NULL, SND_PURGE);
+        SOUND_BOOL = 0;
+        printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
+    }
+
+    if(start==0 && SOUND_BOOL==0 && 0){
+        SOUND_BOOL = PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
+        printf("SOUND_BOOL=%d\n", SOUND_BOOL);
+        if (SOUND_BOOL){
+            SOUND_BOOL = 1;
+        }
+        printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
+    }
+    */
         //Road Backgound
         glColor3f(0.000, 0.392, 0.000);
         glBegin(GL_POLYGON);
@@ -335,7 +472,8 @@ void fristDesign(){
             glVertex2f(0,50-50);
         glEnd();
         //Road Design In Front Page
-        glColor3f(00, 0, 0);
+        //glColor3f(0, 0, 0);
+        glColor3f(0.412, 0.412, 0.412);
         glBegin(GL_TRIANGLES);
             glVertex2f(32-2+21,55);
             glVertex2f(32+58,50-50);
@@ -367,14 +505,14 @@ void fristDesign(){
         //Hill 2
         glColor3f(0.000, 0.502, 0.000);
             glBegin(GL_TRIANGLES);
-            glVertex2f(20+15,55+12);
+            glVertex2f(20+15,55+20);
             glVertex2f(20+20+10,55);
             glVertex2f(0+10,55);
         glEnd();
         //Hill 4
         glColor3f(0.235, 0.702, 0.443);
         glBegin(GL_TRIANGLES);
-            glVertex2f(87,55+10);
+            glVertex2f(87,55+12);
             glVertex2f(100,55);
             glVertex2f(60,55);
         glEnd();
@@ -385,6 +523,26 @@ void fristDesign(){
             glVertex2f(90,55);
             glVertex2f(50,55);
         glEnd();
+
+        // Trees
+        create_object(2,55);
+        create_object(78,53);
+        create_object(5,45);
+        create_object(75,38);
+        create_object(70,50);
+        create_object(3,30);
+
+        // Clouds
+        create_cloud(7, 67);
+        create_cloud(13, 65);
+        create_cloud(12, 69);
+
+        create_cloud(40, 65);
+        create_cloud(38, 67);
+        create_cloud(43, 64);
+
+        create_cloud(75, 68);
+        create_cloud(68, 70);
 
         //Text Information in Frist Page
         int title_posy = 80;
@@ -484,6 +642,30 @@ void fristDesign(){
         renderBitmapString(60-5,50-43,(void *)font2,TEAM_TITLE);
 }
 void display(){
+    if(CURR_STAGE==1 && start==0){
+        printf("(Score Board)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
+        LAST_STAGE = CURR_STAGE;
+        CURR_STAGE = 2;
+    }
+    else if(CURR_STAGE==2 && start==1){
+        printf("(Racing)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
+        LAST_STAGE = CURR_STAGE;
+        CURR_STAGE = 1;
+    }
+    else if(CURR_STAGE==0 && start==1){
+        printf("(Begin)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
+        LAST_STAGE = CURR_STAGE;
+        CURR_STAGE = 1;
+    }
+    else if(CURR_STAGE==0 && start==0){
+        //printf("(Initial)LAST_STAGE=%d\n", LAST_STAGE);
+        if(SOUND_BOOL==0){
+            PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
+            SOUND_BOOL = 1;
+            printf("SOUND_BOOL=%d ", SOUND_BOOL);
+        }
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if(start==1){
         //glClearColor(0.627, 0.322, 0.176,1);
@@ -491,6 +673,7 @@ void display(){
         startGame();
     }
     else{
+        SOUND_BOOL = 0;
         fristDesign();
         //glClearColor(0.184, 0.310, 0.310,1);
     }
@@ -498,7 +681,7 @@ void display(){
     glutSwapBuffers();
 }
 void spe_key(int key, int x, int y){
-        switch (key) {
+    switch (key) {
         case GLUT_KEY_DOWN:
             if(FPS>(LEVEL_UP_SCORE+(level*LEVEL_DELTA_V)))
                 FPS=FPS-KEY_DELTA_V;
@@ -523,13 +706,12 @@ void spe_key(int key, int x, int y){
             }
             break;
         default:
-                break;
-        }
+            break;
+    }
 }
 void processKeys(unsigned char key, int x, int y) {
-      switch (key)
-            {
-                case ' ':
+      switch (key){
+        case ' ':
             if(start==0){
                 start = 1;
                 gv = 0;
@@ -548,18 +730,21 @@ void processKeys(unsigned char key, int x, int y) {
                 score=0;
                 level=0;
             }
-             break;
-             case 27:
-                 exit(0);
-             break;
-             default:
-                break;
-        }
+            break;
+        case 27:
+            printf("27 key presed!");
+            PlaySound(NULL, 0,0);
+            exit(0);
+            break;
+        default:
+            break;
+    }
 }
 void timer(int){
     glutPostRedisplay();
     glutTimerFunc(1000/FPS,timer,0);
 }
+
 int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
@@ -573,6 +758,19 @@ int main(int argc, char *argv[])
     glOrtho(0,100,0,100,-1,1);
     glClearColor(0.184, 0.310, 0.310,1);
     glutTimerFunc(1000,timer,0);
+    printf("*********************************");
+
+    /*
+    if(gv == 1){
+        SOUND_BOOL = PlaySound(TEXT(RACING_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
+        printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
+    }
+    else{
+        SOUND_BOOL = PlaySound(NULL, NULL, SND_PURGE);
+        printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
+    }
+    */
+    // PlaySound(TEXT(RACING_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
     glutMainLoop();
     return 0;
 }

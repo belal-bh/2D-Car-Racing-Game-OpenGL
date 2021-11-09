@@ -1,10 +1,11 @@
 # depslib dependency file v1.0
-1636474712 source:g:\my drive\academic\cse42\cg_4203\lab\2d-car-racing-game-opengl\main.cpp
+1636501837 source:g:\my drive\academic\cse42\cg_4203\lab\2d-car-racing-game-opengl\main.cpp
 	<windows.h>
 	<GLUT/glut.h>
 	<GL/glut.h>
 	<stdlib.h>
 	<stdio.h>
+	<MMsystem.h>
 	<iostream>
 	<string>
 
