@@ -51,9 +51,9 @@ int lrIndex = 0 ;
 //Car Coming
 int car1 = 0;
 int lrIndex1=0;
-int car2 = +35;
+int car2 = +33;
 int lrIndex2=0;
-int car3 = +70;
+int car3 = +66;
 int lrIndex3=0;
 //For Display TEXT
 const int font1=(int)GLUT_BITMAP_TIMES_ROMAN_24;
@@ -72,35 +72,42 @@ void startGame(){
     //Road
     glColor3f(0.412, 0.412, 0.412);
     glBegin(GL_POLYGON);
-        glVertex2f(20,0);
-        glVertex2f(20,100);
-        glVertex2f(80,100);
-        glVertex2f(80,0);
+        glVertex2f(15,0);
+        glVertex2f(15,100);
+        glVertex2f(70,100);
+        glVertex2f(70,0);
     glEnd();
 
     //Road Left Border
     glColor3f(1.000, 1.000, 1.000);
     glBegin(GL_POLYGON);
-        glVertex2f(20,0);
-        glVertex2f(20,100);
-        glVertex2f(23,100);
-        glVertex2f(23,0);
+        glVertex2f(15,0);
+        glVertex2f(15,100);
+        glVertex2f(18,100);
+        glVertex2f(18,0);
     glEnd();
 
     //Road Right Border
     glColor3f(1.000, 1.000, 1.000);
     glBegin(GL_POLYGON);
-        glVertex2f(77,0);
-        glVertex2f(77,100);
-        glVertex2f(80,100);
-        glVertex2f(80,0);
+        glVertex2f(67,0);
+        glVertex2f(67,100);
+        glVertex2f(70,100);
+        glVertex2f(70,0);
     glEnd();
     //Road Middel Border
         //TOP
     glColor3f(1.000, 1.000, 1.000);
     glBegin(GL_POLYGON);
-        glVertex2f(48,roadDivTop+80);
-        glVertex2f(48,roadDivTop+100);
+        glVertex2f(33,roadDivTop+80);
+        glVertex2f(33,roadDivTop+100);
+        glVertex2f(35,roadDivTop+100);
+        glVertex2f(35,roadDivTop+80);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+        glVertex2f(50,roadDivTop+80);
+        glVertex2f(50,roadDivTop+100);
         glVertex2f(52,roadDivTop+100);
         glVertex2f(52,roadDivTop+80);
     glEnd();
@@ -112,8 +119,14 @@ void startGame(){
         //Midle
     //glColor3f(0.000, 1.000, 0.000);
     glBegin(GL_POLYGON);
-        glVertex2f(48,roadDivMdl+40);
-        glVertex2f(48,roadDivMdl+60);
+        glVertex2f(33,roadDivMdl+40);
+        glVertex2f(33,roadDivMdl+60);
+        glVertex2f(35,roadDivMdl+60);
+        glVertex2f(35,roadDivMdl+40);
+    glEnd();
+    glBegin(GL_POLYGON);
+        glVertex2f(50,roadDivMdl+40);
+        glVertex2f(50,roadDivMdl+60);
         glVertex2f(52,roadDivMdl+60);
         glVertex2f(52,roadDivMdl+40);
     glEnd();
@@ -125,8 +138,14 @@ void startGame(){
         //Bottom
     //glColor3f(1.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
-        glVertex2f(48,roadDivBtm+0);
-        glVertex2f(48,roadDivBtm+20);
+        glVertex2f(33,roadDivBtm+0);
+        glVertex2f(33,roadDivBtm+20);
+        glVertex2f(35,roadDivBtm+20);
+        glVertex2f(35,roadDivBtm+0);
+    glEnd();
+    glBegin(GL_POLYGON);
+        glVertex2f(50,roadDivBtm+0);
+        glVertex2f(50,roadDivBtm+20);
         glVertex2f(52,roadDivBtm+20);
         glVertex2f(52,roadDivBtm+0);
     glEnd();
@@ -169,7 +188,7 @@ void startGame(){
     //Increse Speed With level
     //MAIN car
     //Front Tire
-    glColor3f(0.000, 0.000, 0.000);
+   /* glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
         glVertex2f(lrIndex+26-2,5);
         glVertex2f(lrIndex+26-2,7);
@@ -194,8 +213,22 @@ void startGame(){
         glVertex2f(lrIndex+30,8);
         glVertex2f(lrIndex+30,1);
     glEnd();
+    */
+    glColor3f(0.678, 1.000, 0.184);
+    glBegin(GL_POLYGON);
+        glVertex2f(lrIndex+23,0);
+        glVertex2f(lrIndex+22,1);
+        glVertex2f(lrIndex+22,10);
+        glVertex2f(lrIndex+24,12);
+        glVertex2f(lrIndex+27,12);
+        glVertex2f(lrIndex+29,10);
+        glColor3f(0.000, 0.545, 0.545);
+        glVertex2f(lrIndex+29,1);
+        glVertex2f(lrIndex+28,0);
+    glEnd();
+
     //Opposite car 1
-    glColor3f(0.000, 0.000, 0.000);
+    /*glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
         glVertex2f(lrIndex1+26-2,car1+100-4);
         glVertex2f(lrIndex1+26-2,car1+100-6);
@@ -217,81 +250,76 @@ void startGame(){
         glVertex2f(lrIndex1+30,car1+100-7);
         glVertex2f(lrIndex1+30,car1+100);
     glEnd();
+    */
+    glColor3f(.500, 0.000, 0.300);
+    glBegin(GL_POLYGON);
+        glVertex2f(lrIndex1+23,car1+100-0);
+        glVertex2f(lrIndex1+22,car1+100-1);
+        glVertex2f(lrIndex1+22,car1+100-10);
+        glVertex2f(lrIndex1+24,car1+100-12);
+        glVertex2f(lrIndex1+27,car1+100-12);
+        glVertex2f(lrIndex1+29,car1+100-10);
+        glColor3f(0.800, 0.545, 0.545);
+        glVertex2f(lrIndex1+29,car1+100-1);
+        glVertex2f(lrIndex1+28,car1+100-0);
+
+    glEnd();
     car1--;
     if(car1<-100){
         car1=0;
         lrIndex1=lrIndex;
     }
     //KIll check car1
-    if((abs(lrIndex-lrIndex1)<8) && (car1+100<10)){
+    if((abs(lrIndex-lrIndex1)<8) && (car1+100<24 )){
             start = 0;
             gv=1;
     }
     //Opposite car 2
-    glColor3f(0.000, 0.000, 0.000);
+    glColor3f(.200, 0.3000, 0.300);
     glBegin(GL_POLYGON);
-        glVertex2f(lrIndex2+26-2,car2+100-4);
-        glVertex2f(lrIndex2+26-2,car2+100-6);
-        glVertex2f(lrIndex2+30+2,car2+100-6);
-        glVertex2f(lrIndex2+30+2,car2+100-4);
-    glEnd();
-    glColor3f(0.000, 0.000, 0.000);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex2+26-2,car2+100);
-        glVertex2f(lrIndex2+26-2,car2+100-2);
-        glVertex2f(lrIndex2+30+2,car2+100-2);
-        glVertex2f(lrIndex2+30+2,car2+100);
-    glEnd();
-    glColor3f(0.294, 0.000, 0.510);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex2+26,car2+100);
-        glVertex2f(lrIndex2+26,car2+100-7);
-        glVertex2f(lrIndex2+28,car2+100-9);
-        glVertex2f(lrIndex2+30,car2+100-7);
-        glVertex2f(lrIndex2+30,car2+100);
-    glEnd();
+        glVertex2f(lrIndex2+23,car2+100-0);
+        glVertex2f(lrIndex2+22,car2+100-1);
+        glVertex2f(lrIndex2+22,car2+100-10);
+        glVertex2f(lrIndex2+24,car2+100-12);
+        glVertex2f(lrIndex2+27,car2+100-12);
+        glVertex2f(lrIndex2+29,car2+100-10);
+        glColor3f(0.300, 0.545, 0.545);
+        glVertex2f(lrIndex2+29,car2+100-1);
+        glVertex2f(lrIndex2+28,car2+100-0);
+
+         glEnd();
     car2--;
     if(car2<-100){
         car2=0;
         lrIndex2=lrIndex;
     }
     //KIll check car2
-    if((abs(lrIndex-lrIndex2)<8) && (car2+100<10)){
+    if((abs(lrIndex-lrIndex2)<8) && (car2+100<24)){
             start = 0;
             gv=1;
     }
     //Opposite car 3
-    glColor3f(0.000, 0.000, 0.000);
+    glColor3f(0.600, 0.545, 0.3);
     glBegin(GL_POLYGON);
-        glVertex2f(lrIndex3+26-2,car3+100-4);
-        glVertex2f(lrIndex3+26-2,car3+100-6);
-        glVertex2f(lrIndex3+30+2,car3+100-6);
-        glVertex2f(lrIndex3+30+2,car3+100-4);
-    glEnd();
+        glVertex2f(lrIndex3+23,car3+100-0);
+        glVertex2f(lrIndex3+22,car3+100-1);
+        glVertex2f(lrIndex3+22,car3+100-10);
+        glVertex2f(lrIndex3+24,car3+100-12);
+        glVertex2f(lrIndex3+27,car3+100-12);
+        glVertex2f(lrIndex3+29,car3+100-10);
+        glColor3f(0.20, 0.545, 0.6);
+        glVertex2f(lrIndex3+29,car3+100-1);
+        glVertex2f(lrIndex3+28,car3+100-0);
 
-    glColor3f(0.000, 0.000, 0.000);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex3+26-2,car3+100);
-        glVertex2f(lrIndex3+26-2,car3+100-2);
-        glVertex2f(lrIndex3+30+2,car3+100-2);
-        glVertex2f(lrIndex3+30+2,car3+100);
-    glEnd();
+        glEnd();
 
-    glColor3f(1.000, 0.271, 0.000);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex3+26,car3+100);
-        glVertex2f(lrIndex3+26,car3+100-7);
-        glVertex2f(lrIndex3+28,car3+100-9);
-        glVertex2f(lrIndex3+30,car3+100-7);
-        glVertex2f(lrIndex3+30,car3+100);
-    glEnd();
     car3--;
     if(car3<-100){
         car3=0;
         lrIndex3=lrIndex;
     }
     //KIll check car3
-    if((abs(lrIndex-lrIndex3)<8) && (car3+100<10)){
+    if((abs(lrIndex-lrIndex3)<8) && (car3+100<24)){
             start = 0;
             gv=1;
     }
@@ -480,17 +508,17 @@ void spe_key(int key, int x, int y){
             break;
         case GLUT_KEY_LEFT:
             if(lrIndex>=0){
-                lrIndex = lrIndex - (FPS/10);
+                lrIndex = lrIndex - 17;
                 if(lrIndex<0){
-                    lrIndex=-1;
+                    lrIndex=0;
                 }
             }
             break;
         case GLUT_KEY_RIGHT:
-            if(lrIndex<=44){
-                lrIndex = lrIndex + (FPS/10);
-                if(lrIndex>44){
-                    lrIndex = 45;
+            if(lrIndex<=34){
+                lrIndex = lrIndex + 17;
+                if(lrIndex>34){
+                    lrIndex = 34;
                 }
             }
             break;
