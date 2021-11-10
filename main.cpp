@@ -9,6 +9,8 @@
 #include <MMsystem.h>
 #include <iostream>
 #include <string>
+#include <time.h>
+using namespace std;
 
 // game title
 char GAME_TITLE[] = "Car Racing Game";
@@ -24,8 +26,8 @@ int CURR_STAGE = 0;
 //Track Sound
 int SOUND_BOOL = 0;
 // sound file path
-char RACING_F[] = "G:\\My Drive\\academic\\cse42\\CG_4203\\lab\\2D-Car-Racing-Game-OpenGL\\racing-small.wav";
-char BEGIN_F[] = "G:\\My Drive\\academic\\cse42\\CG_4203\\lab\\2D-Car-Racing-Game-OpenGL\\relaxing-small.wav";
+char RACING_F[] = "racing-small.wav";
+char BEGIN_F[] = "relaxing-small.wav";
 // Starting Game Speed
 int INITIAL_FPS = 50;
 
@@ -59,18 +61,134 @@ int roadDivMdl = 0;
 int roadDivBtm = 0;
 //For Card Left / RIGHT
 int lrIndex = 0 ;
-//Car Coming
-int car1 = 0;
-int lrIndex1=0;
-int car2 = +33;
-int lrIndex2=0;
-int car3 = +66;
-int lrIndex3=0;
+
 //For Display TEXT
 const int font1=(int)GLUT_BITMAP_TIMES_ROMAN_24;
 const int font2=(int)GLUT_BITMAP_HELVETICA_18;
 const int font3=(int)GLUT_BITMAP_8_BY_13;
 char s[30];
+
+class Car{
+    public:
+        // slrIndex is the rider car lrIndex which
+        // will be shared across all cars
+        static int slrIndex;
+        static int collide, slane;
+        int lane, lrIndex, car;
+        int is_rider;
+        double r1, g1, b1, r2, g2, b2;
+        Car(int ln=0, int lri=0, int c=0, int rider=0){
+            lane = ln;
+            lrIndex = lri;
+            car = c;
+            is_rider = rider;
+            //srand(time(0));
+
+            int rgb_max = 1000;
+            r1 = (double)(rand()%rgb_max)/rgb_max;
+            g1 = (double)(rand()%rgb_max)/rgb_max;
+            b1 = (double)(rand()%rgb_max)/rgb_max;
+
+            r2 = (double)(rand()%rgb_max)/rgb_max;
+            g2 = (double)(rand()%rgb_max)/rgb_max;
+            b2 = (double)(rand()%rgb_max)/rgb_max;
+        }
+        void draw(){
+            if(is_rider){
+                glColor3f(r1, g1, b1);
+                glBegin(GL_POLYGON);
+                    glVertex2f(lrIndex+23,0);
+                    glVertex2f(lrIndex+22,1);
+                    glVertex2f(lrIndex+22,10);
+                    glVertex2f(lrIndex+24,12);
+                    glVertex2f(lrIndex+27,12);
+                    glVertex2f(lrIndex+29,10);
+                    glColor3f(r2, g2, b2);
+                    glVertex2f(lrIndex+29,1);
+                    glVertex2f(lrIndex+28,0);
+                glEnd();
+            }
+            else{
+                glColor3f(r1, g1, b1);
+                glBegin(GL_POLYGON);
+                    glVertex2f(lrIndex+23,car+100-0);
+                    glVertex2f(lrIndex+22,car+100-1);
+                    glVertex2f(lrIndex+22,car+100-10);
+                    glVertex2f(lrIndex+24,car+100-12);
+                    glVertex2f(lrIndex+27,car+100-12);
+                    glVertex2f(lrIndex+29,car+100-10);
+                    glColor3f(r2, g2, b2);
+                    glVertex2f(lrIndex+29,car+100-1);
+                    glVertex2f(lrIndex+28,car+100-0);
+                glEnd();
+            }
+        }
+        int is_collide(){
+            if((abs(slrIndex-lrIndex)<8) && (car+100<23)){
+                collide = 1;
+                return collide;
+            }
+
+            return 0;
+        }
+
+        int move(){
+            car--;
+            if(car<-100){
+                car=0;
+                lrIndex = slrIndex;
+            }
+            return 0;
+        }
+        void set_slrIndex(int indx=0){
+            slrIndex = indx;
+            if(is_rider){
+                lrIndex = slrIndex;
+            }
+        }
+        void set_index(int index){
+            if(is_rider){
+                slrIndex = index;
+                lrIndex = slrIndex;
+            }
+            else{
+                lrIndex = index;
+            }
+        }
+        void reset(int ln, int lri, int c=0){
+            lane = ln;
+            lrIndex = lri;
+            car = c;
+
+            if(is_rider==1){
+                slrIndex = lrIndex;
+                collide = 0;
+            }
+
+            int rgb_max = 1000;
+            r1 = (double)(rand()%rgb_max)/rgb_max;
+            g1 = (double)(rand()%rgb_max)/rgb_max;
+            b1 = (double)(rand()%rgb_max)/rgb_max;
+
+            r2 = (double)(rand()%rgb_max)/rgb_max;
+            g2 = (double)(rand()%rgb_max)/rgb_max;
+            b2 = (double)(rand()%rgb_max)/rgb_max;
+        }
+};
+int Car::slrIndex = 0;
+int Car::collide = 0;
+
+//Car Coming
+Car car(1, 0, 12, 1);
+//car.set_slrIndex(0);
+Car car1(1, 0, 0);
+//int lrIndex1=0;
+Car car2(1, 0, +33);
+//int lrIndex2=0;
+Car car3(1, 0, +66);
+//int lrIndex3=0;
+
+
 void renderBitmapString(float x, float y, void *font,const char *string){
     const char *c;
     glRasterPos2f(x, y);
@@ -131,7 +249,7 @@ void create_cloud(int x, int y){
 void startGame(){
     if(LAST_STAGE!=CURR_STAGE){
         if(SOUND_BOOL==1){
-            PlaySound(NULL, NULL, SND_PURGE);
+            PlaySound(NULL, 0, 0);
             SOUND_BOOL = 0;
         }
         LAST_STAGE = CURR_STAGE;
@@ -262,146 +380,33 @@ void startGame(){
     sprintf (level_buffer, "LEVEL: %d", level);
     glColor3f(0.000, 1.000, 0.000);
     renderBitmapString(80.5,95-4,(void *)font3,level_buffer);
-    //Increse Speed With level
-    //MAIN car
-    //Front Tire
-   /* glColor3f(0.000, 0.000, 0.000);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex+26-2,5);
-        glVertex2f(lrIndex+26-2,7);
-        glVertex2f(lrIndex+30+2,7);
-        glVertex2f(lrIndex+30+2,5);
-    glEnd();
-        //Back Tire
-    glColor3f(0.000, 0.000, 0.000);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex+26-2,1);
-        glVertex2f(lrIndex+26-2,3);
-        glVertex2f(lrIndex+30+2,3);
-        glVertex2f(lrIndex+30+2,1);
-    glEnd();
-        //Car Body
-    glColor3f(0.678, 1.000, 0.184);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex+26,1);
-        glVertex2f(lrIndex+26,8);
-        glColor3f(0.000, 0.545, 0.545);
-        glVertex2f(lrIndex+28,10);
-        glVertex2f(lrIndex+30,8);
-        glVertex2f(lrIndex+30,1);
-    glEnd();
-    */
-    glColor3f(0.678, 1.000, 0.184);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex+23,0);
-        glVertex2f(lrIndex+22,1);
-        glVertex2f(lrIndex+22,10);
-        glVertex2f(lrIndex+24,12);
-        glVertex2f(lrIndex+27,12);
-        glVertex2f(lrIndex+29,10);
-        glColor3f(0.000, 0.545, 0.545);
-        glVertex2f(lrIndex+29,1);
-        glVertex2f(lrIndex+28,0);
-    glEnd();
 
-    //Opposite car 1
-    /*glColor3f(0.000, 0.000, 0.000);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex1+26-2,car1+100-4);
-        glVertex2f(lrIndex1+26-2,car1+100-6);
-        glVertex2f(lrIndex1+30+2,car1+100-6);
-        glVertex2f(lrIndex1+30+2,car1+100-4);
-    glEnd();
-    glColor3f(0.000, 0.000, 0.000);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex1+26-2,car1+100);
-        glVertex2f(lrIndex1+26-2,car1+100-2);
-        glVertex2f(lrIndex1+30+2,car1+100-2);
-        glVertex2f(lrIndex1+30+2,car1+100);
-    glEnd();
-    glColor3f(1.000, 0.000, 0.000);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex1+26,car1+100);
-        glVertex2f(lrIndex1+26,car1+100-7);
-        glVertex2f(lrIndex1+28,car1+100-9);
-        glVertex2f(lrIndex1+30,car1+100-7);
-        glVertex2f(lrIndex1+30,car1+100);
-    glEnd();
-    */
-    glColor3f(.500, 0.000, 0.300);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex1+23,car1+100-0);
-        glVertex2f(lrIndex1+22,car1+100-1);
-        glVertex2f(lrIndex1+22,car1+100-10);
-        glVertex2f(lrIndex1+24,car1+100-12);
-        glVertex2f(lrIndex1+27,car1+100-12);
-        glVertex2f(lrIndex1+29,car1+100-10);
-        glColor3f(0.800, 0.545, 0.545);
-        glVertex2f(lrIndex1+29,car1+100-1);
-        glVertex2f(lrIndex1+28,car1+100-0);
+    // rider car
+    car.draw();
 
-    glEnd();
-    car1--;
-    if(car1<-100){
-        car1=0;
-        lrIndex1=lrIndex;
+    // Road cars
+    car1.draw();
+    car1.move();
+    if(car1.is_collide()){
+        start = 0;
+        gv=1;
     }
-    //KIll check car1
-    if((abs(lrIndex-lrIndex1)<8) && (car1+100<23 )){
-            start = 0;
-            gv=1;
-    }
-    //Opposite car 2
-    glColor3f(0.200, 0.3000, 0.300);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex2+23,car2+100-0);
-        glVertex2f(lrIndex2+22,car2+100-1);
-        glVertex2f(lrIndex2+22,car2+100-10);
-        glVertex2f(lrIndex2+24,car2+100-12);
-        glVertex2f(lrIndex2+27,car2+100-12);
-        glVertex2f(lrIndex2+29,car2+100-10);
-        glColor3f(0.300, 0.545, 0.545);
-        glVertex2f(lrIndex2+29,car2+100-1);
-        glVertex2f(lrIndex2+28,car2+100-0);
 
-         glEnd();
-    car2--;
-    if(car2<-100){
-        car2=0;
-        lrIndex2=lrIndex;
+    car2.draw();
+    car2.move();
+    if(car2.is_collide()){
+        start = 0;
+        gv=1;
     }
-    //KIll check car2
-    if((abs(lrIndex-lrIndex2)<8) && (car2+100<23)){
-            start = 0;
-            gv=1;
-    }
-    //Opposite car 3
-    glColor3f(0.800, 0.2, 0.2);
-    glBegin(GL_POLYGON);
-        glVertex2f(lrIndex3+23,car3+100-0);
-        glVertex2f(lrIndex3+22,car3+100-1);
-        glVertex2f(lrIndex3+22,car3+100-10);
-        glVertex2f(lrIndex3+24,car3+100-12);
-        glVertex2f(lrIndex3+27,car3+100-12);
-        glVertex2f(lrIndex3+29,car3+100-10);
-        glColor3f(0.40, 0.345, 0.4);
-        glVertex2f(lrIndex3+29,car3+100-1);
-        glVertex2f(lrIndex3+28,car3+100-0);
 
-        glEnd();
-
-    car3--;
-    if(car3<-100){
-        car3=0;
-        lrIndex3=lrIndex;
-    }
-    //KIll check car3
-    if((abs(lrIndex-lrIndex3)<8) && (car3+100<23)){
-            start = 0;
-            gv=1;
+    car3.draw();
+    car3.move();
+    if(car3.is_collide()){
+        start = 0;
+        gv=1;
     }
 }
-void fristDesign(){
+void startCreen(){
     if(LAST_STAGE!=CURR_STAGE){
         if(SOUND_BOOL==1){
             PlaySound(NULL, 0, 0);
@@ -619,14 +624,11 @@ void display(){
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if(start==1){
-        //glClearColor(0.627, 0.322, 0.176,1);
         glClearColor(0.000, 0.392, 0.000,1);
         startGame();
     }
     else{
-        SOUND_BOOL = 0;
-        fristDesign();
-        //glClearColor(0.184, 0.310, 0.310,1);
+        startCreen();
     }
     glFlush();
     glutSwapBuffers();
@@ -641,20 +643,25 @@ void spe_key(int key, int x, int y){
             FPS=FPS + KEY_DELTA_V;
             break;
         case GLUT_KEY_LEFT:
-            if(lrIndex>=0){
-                lrIndex = lrIndex - 17;
-                if(lrIndex<0){
-                    lrIndex=0;
+            printf("%d, %d\t", GLUT_KEY_LEFT, car.slrIndex);
+            if(car.slrIndex>=0){
+                car.set_index(car.slrIndex - 17);
+                if(car.slrIndex<0){
+                    car.set_index(0);
                 }
             }
+            printf("%d\n", car.slrIndex);
             break;
         case GLUT_KEY_RIGHT:
-            if(lrIndex<=34){
-                lrIndex = lrIndex + 17;
-                if(lrIndex>34){
-                    lrIndex = 34;
+            printf("%d, %d\t", GLUT_KEY_RIGHT, car.slrIndex);
+            if(car.slrIndex<=34){
+                car.set_index(car.slrIndex + 17);
+                if(car.slrIndex>34){
+                    car.set_index(34);
                 }
             }
+            printf("%d\n", car.slrIndex);
+            //car.draw();
             break;
         default:
             break;
@@ -671,15 +678,13 @@ void processKeys(unsigned char key, int x, int y) {
                 roadDivTop = 0;
                 roadDivMdl = 0;
                 roadDivBtm = 0;
-                lrIndex = 0 ;
-                car1 = 0;
-                lrIndex1=0;
-                car2 = +33;
-                lrIndex2=0;
-                car3 = +66;
-                lrIndex3=0;
+
                 score=0;
                 level=0;
+                car.reset(0, 0, 0);
+                car1.reset(1, 0, 0);
+                car2.reset(1, 0, +33);
+                car3.reset(1, 0, +66);
             }
             break;
         case 27:
