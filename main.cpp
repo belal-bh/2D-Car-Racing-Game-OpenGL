@@ -96,8 +96,7 @@ class Car{
         void draw(){
             if(is_rider){
                 //customs car desing start
-                //glColor3f(r1, g1, b1);
-                glColor3f(1.0, 1.0, 0.0);
+                glColor3f(r1, g1, b1);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+24,0);
                     glVertex2f(lrIndex+22,2);
@@ -105,15 +104,14 @@ class Car{
                     glVertex2f(lrIndex+24,14);
                     glVertex2f(lrIndex+28,14);
                     glVertex2f(lrIndex+30,12);
-                    //glColor3f(r2, g2, b2);
                     glVertex2f(lrIndex+30,2);
                     glVertex2f(lrIndex+28,0);
                 glEnd();
 
                 // inside car start
+                glColor3f(r2, g2, b2);
 
                 // left window glass
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+23.5,4.5);
                     glVertex2f(lrIndex+22.5,4.5);
@@ -125,7 +123,6 @@ class Car{
 
                 // right window glass
                 float dx = 6;
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+23.5+dx,4.5);
                     glVertex2f(lrIndex+22.5+dx,4.5);
@@ -135,8 +132,6 @@ class Car{
                 glEnd();
 
                 // middle-first window glass
-                //float dx = 6;
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+27.5,7.5);
                     glVertex2f(lrIndex+24.5,7.5);
@@ -147,8 +142,6 @@ class Car{
                 glEnd();
 
                 // middle-second window glass
-
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+27,4.5);
                     glVertex2f(lrIndex+25,4.5);
@@ -157,8 +150,6 @@ class Car{
                 glEnd();
 
                 // middle-last window glass
-
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+27.5,2);
                     glVertex2f(lrIndex+24.5,2);
@@ -166,25 +157,9 @@ class Car{
                     glVertex2f(lrIndex+28.5,3.5);
                 glEnd();
 
-
                 // inside car end
-
-                // custom car design end
-                /*glColor3f(r1, g1, b1);
-                glBegin(GL_POLYGON);
-                    glVertex2f(lrIndex+23,0);
-                    glVertex2f(lrIndex+22,1);
-                    glVertex2f(lrIndex+22,10);
-                    glVertex2f(lrIndex+24,12);
-                    glVertex2f(lrIndex+27,12);
-                    glVertex2f(lrIndex+29,10);
-                    glColor3f(r2, g2, b2);
-                    glVertex2f(lrIndex+29,1);
-                    glVertex2f(lrIndex+28,0);
-                glEnd();*/
             }
             else{
-                //glColor3f(1.0, 1.0, 0.0);
                 glColor3f(r1, g1, b1);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+24,car+100-0);
@@ -199,21 +174,19 @@ class Car{
                 glEnd();
 
                 // inside car start
+                glColor3f(r2, g2, b2);
 
                 // left window glass
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+23.5,car+100-4.5);
                     glVertex2f(lrIndex+22.5,car+100-4.5);
                     glVertex2f(lrIndex+22.5,car+100-10);
                     glVertex2f(lrIndex+23,car+100-11);
                     glVertex2f(lrIndex+23.5,car+100-10);
-
                 glEnd();
 
                 // right window glass
                 float dx = 6;
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+23.5+dx,car+100-4.5);
                     glVertex2f(lrIndex+22.5+dx,car+100-4.5);
@@ -224,7 +197,6 @@ class Car{
 
                 // middle-first window glass
                 //float dx = 6;
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+27.5,car+100-7.5);
                     glVertex2f(lrIndex+24.5,car+100-7.5);
@@ -235,8 +207,6 @@ class Car{
                 glEnd();
 
                 // middle-second window glass
-
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+27,car+100-4.5);
                     glVertex2f(lrIndex+25,car+100-4.5);
@@ -245,8 +215,6 @@ class Car{
                 glEnd();
 
                 // middle-last window glass
-
-                glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_POLYGON);
                     glVertex2f(lrIndex+27.5,car+100-2);
                     glVertex2f(lrIndex+24.5,car+100-2);
@@ -254,38 +222,7 @@ class Car{
                     glVertex2f(lrIndex+28.5,car+100-3.5);
                 glEnd();
 
-
                 // inside car end
-
-                // custom car design end
-                //customs enemy cars
-                /*glColor3f(r1, g1, b1);
-                glBegin(GL_POLYGON);
-                    glVertex2f(lrIndex+24,car+100-0);
-                    glVertex2f(lrIndex+22,car+100-2);
-                    glVertex2f(lrIndex+22,car+100-12);
-                    glVertex2f(lrIndex+24,car+100-14);
-                    glVertex2f(lrIndex+28,car+100-14);
-                    glVertex2f(lrIndex+30,car+100-12);
-                    glColor3f(r2, g2, b2);
-                    glVertex2f(lrIndex+30,car+100-2);
-                    glVertex2f(lrIndex+28,car+100-0);
-                glEnd();
-                */
-                // enemy cars
-                /*glColor3f(r1, g1, b1);
-                glBegin(GL_POLYGON);
-                    glVertex2f(lrIndex+23,car+100-0);
-                    glVertex2f(lrIndex+22,car+100-1);
-                    glVertex2f(lrIndex+22,car+100-10);
-                    glVertex2f(lrIndex+24,car+100-12);
-                    glVertex2f(lrIndex+27,car+100-12);
-                    glVertex2f(lrIndex+29,car+100-10);
-                    glColor3f(r2, g2, b2);
-                    glVertex2f(lrIndex+29,car+100-1);
-                    glVertex2f(lrIndex+28,car+100-0);
-                glEnd();
-                */
             }
         }
         int is_collide(){
@@ -293,7 +230,6 @@ class Car{
                 collide = 1;
                 return collide;
             }
-
             return 0;
         }
 
@@ -302,6 +238,7 @@ class Car{
             if(car<-100){
                 car=0;
                 lrIndex = slrIndex;
+                update_color();
             }
             return 0;
         }
@@ -329,15 +266,48 @@ class Car{
                 slrIndex = lrIndex;
                 collide = 0;
             }
+            update_color();
+        }
 
-            int rgb_max = 1000;
-            r1 = (double)(rand()%rgb_max)/rgb_max;
-            g1 = (double)(rand()%rgb_max)/rgb_max;
-            b1 = (double)(rand()%rgb_max)/rgb_max;
-
-            r2 = (double)(rand()%rgb_max)/rgb_max;
-            g2 = (double)(rand()%rgb_max)/rgb_max;
-            b2 = (double)(rand()%rgb_max)/rgb_max;
+        void update_color(){
+            if(is_rider==1){
+                int random_choice = (int)(rand()%5);
+                if(random_choice==0){
+                    r1 = 1.0;
+                    g1 = 0.6;
+                    b1 = 0.3;
+                }
+                else if(random_choice==1){
+                    r1 = 1.0;
+                    g1 = 0.0;
+                    b1 = 0.0;
+                }
+                else if(random_choice==2){
+                    r1 = 1.0;
+                    g1 = 0.8;
+                    b1 = 0.2;
+                }
+                else if(random_choice==3){
+                    r1 = 0.7;
+                    g1 = 0.4;
+                    b1 = 0.3;
+                }
+                else if(random_choice==4){
+                    r1 = 1.0;
+                    g1 = 0.8;
+                    b1 = 0.6;
+                }
+            }
+            else{
+                int rgb_max = 1000;
+                r1 = (double)(rand()%rgb_max)/rgb_max;
+                g1 = (double)(rand()%rgb_max)/rgb_max;
+                b1 = (double)(rand()%rgb_max)/rgb_max;
+            }
+            // secondary color to black
+            r2 = 0.0;
+            g2 = 0.0;
+            b2 = 0.0;
         }
 };
 int Car::slrIndex = 0;
