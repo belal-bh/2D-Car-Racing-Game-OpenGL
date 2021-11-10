@@ -27,7 +27,7 @@ int SOUND_BOOL = 0;
 char RACING_F[] = "G:\\My Drive\\academic\\cse42\\CG_4203\\lab\\2D-Car-Racing-Game-OpenGL\\racing-small.wav";
 char BEGIN_F[] = "G:\\My Drive\\academic\\cse42\\CG_4203\\lab\\2D-Car-Racing-Game-OpenGL\\relaxing-small.wav";
 // Starting Game Speed
-int INITIAL_FPS = 45;
+int INITIAL_FPS = 50;
 
 // Track Game Speed
 int FPS = INITIAL_FPS;
@@ -347,12 +347,12 @@ void startGame(){
         lrIndex1=lrIndex;
     }
     //KIll check car1
-    if((abs(lrIndex-lrIndex1)<8) && (car1+100<24 )){
+    if((abs(lrIndex-lrIndex1)<8) && (car1+100<23 )){
             start = 0;
             gv=1;
     }
     //Opposite car 2
-    glColor3f(.200, 0.3000, 0.300);
+    glColor3f(0.200, 0.3000, 0.300);
     glBegin(GL_POLYGON);
         glVertex2f(lrIndex2+23,car2+100-0);
         glVertex2f(lrIndex2+22,car2+100-1);
@@ -371,12 +371,12 @@ void startGame(){
         lrIndex2=lrIndex;
     }
     //KIll check car2
-    if((abs(lrIndex-lrIndex2)<8) && (car2+100<24)){
+    if((abs(lrIndex-lrIndex2)<8) && (car2+100<23)){
             start = 0;
             gv=1;
     }
     //Opposite car 3
-    glColor3f(0.600, 0.545, 0.3);
+    glColor3f(0.800, 0.2, 0.2);
     glBegin(GL_POLYGON);
         glVertex2f(lrIndex3+23,car3+100-0);
         glVertex2f(lrIndex3+22,car3+100-1);
@@ -384,7 +384,7 @@ void startGame(){
         glVertex2f(lrIndex3+24,car3+100-12);
         glVertex2f(lrIndex3+27,car3+100-12);
         glVertex2f(lrIndex3+29,car3+100-10);
-        glColor3f(0.20, 0.545, 0.6);
+        glColor3f(0.40, 0.345, 0.4);
         glVertex2f(lrIndex3+29,car3+100-1);
         glVertex2f(lrIndex3+28,car3+100-0);
 
@@ -396,7 +396,7 @@ void startGame(){
         lrIndex3=lrIndex;
     }
     //KIll check car3
-    if((abs(lrIndex-lrIndex3)<8) && (car3+100<24)){
+    if((abs(lrIndex-lrIndex3)<8) && (car3+100<23)){
             start = 0;
             gv=1;
     }
@@ -519,7 +519,7 @@ void fristDesign(){
 
     // if game is over
     if(gv==1){
-        int score_board_h = 10;
+        int score_board_h = 10-2;
         int score_board_rel_posy = title_posy - 20;
 
         //Score Board Place Holder
@@ -587,7 +587,8 @@ void fristDesign(){
     renderBitmapString(30,help_rel_posy-1-10+10,(void *)font3,"Press RIGHT Arrow Button to turn Right");
     renderBitmapString(30,help_rel_posy-1-12+10,(void *)font3,"Press LEFT Arrow Button to turn Left");
     glColor3f(0.000, 1.000, 0.000);
-    renderBitmapString(60-5,50-40,(void *)font2,"Created By :");
+    //renderBitmapString(60-5,50-40,(void *)font2,"Created By :");
+    glColor3f(1.000, 1.000, 0.000);
     glColor3f(1.000, 1.000, 0.000);
     renderBitmapString(60-5,50-43,(void *)font2,TEAM_TITLE);
 }
@@ -673,9 +674,9 @@ void processKeys(unsigned char key, int x, int y) {
                 lrIndex = 0 ;
                 car1 = 0;
                 lrIndex1=0;
-                car2 = +35;
+                car2 = +33;
                 lrIndex2=0;
-                car3 = +70;
+                car3 = +66;
                 lrIndex3=0;
                 score=0;
                 level=0;
