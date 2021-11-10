@@ -145,8 +145,6 @@ void startGame(){
         }
         //printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
     }
-    /*
-    */
 
     //Road
     glColor3f(0.412, 0.412, 0.412);
@@ -413,233 +411,185 @@ void fristDesign(){
         SOUND_BOOL = PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
         SOUND_BOOL = 1;
     }
-    /*
-    if(SOUND_BOOL==0){
-        SOUND_BOOL = PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
-        //printf("SOUND_BOOL=%d\n", SOUND_BOOL);
-        if (SOUND_BOOL){
-            SOUND_BOOL = 1;
-        }
-        //printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
-    }
 
-    if(start==0 && gv==0){
-        printf("Main Menu!\n");
-        if(SOUND_BOOL==0){
-            SOUND_BOOL = PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
-            printf("SOUND_BOOL=%d\n", SOUND_BOOL);
-            if (SOUND_BOOL){
-                SOUND_BOOL = 1;
-            }
-            printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
-        }
-    }
-    else{
-        printf("Game Score!\n");
+    //Road Backgound
+    glColor3f(0.000, 0.392, 0.000);
+    glBegin(GL_POLYGON);
+        glVertex2f(0,55);
+        glVertex2f(100,55);
+        glColor3f(0.604, 0.804, 0.196);
+        glVertex2f(100,50-50);
+        glVertex2f(0,50-50);
+    glEnd();
+    //Road Design In Front Page
+    //glColor3f(0, 0, 0);
+    glColor3f(0.412, 0.412, 0.412);
+    glBegin(GL_TRIANGLES);
+        glVertex2f(32-2+21,55);
+        glVertex2f(32+58,50-50);
+        glVertex2f(32-22,50-50);
+    glEnd();
+    //Road Midle
+    glColor3f(1, 1, 1);
+    glBegin(GL_TRIANGLES);
+        glVertex2f(32-2+21,55);
+        glVertex2f(50+2,50-50);
+        glVertex2f(50-2,50-50);
+    glEnd();
+     //Road Sky
+    glColor3f(0.000, 0.749, 1.000);
+    glBegin(GL_POLYGON);
+        glVertex2f(100,100);
+        glVertex2f(0,100);
+        glColor3f(0.686, 0.933, 0.933);
+        glVertex2f(0,55);
+        glVertex2f(100,55);
+    glEnd();
+    //Hill 1
+    glColor3f(0.235, 0.702, 0.443);
+    glBegin(GL_TRIANGLES);
+        glVertex2f(20,55+10);
+        glVertex2f(20+7,55);
+        glVertex2f(0,55);
+    glEnd();
+    //Hill 2
+    glColor3f(0.000, 0.502, 0.000);
+        glBegin(GL_TRIANGLES);
+        glVertex2f(20+15,55+20);
+        glVertex2f(20+20+10,55);
+        glVertex2f(0+10,55);
+    glEnd();
+    //Hill 4
+    glColor3f(0.235, 0.702, 0.443);
+    glBegin(GL_TRIANGLES);
+        glVertex2f(87,55+12);
+        glVertex2f(100,55);
+        glVertex2f(60,55);
+    glEnd();
+     //Hill 3
+    glColor3f(0.000, 0.502, 0.000);
+    glBegin(GL_TRIANGLES);
+        glVertex2f(70,70);
+        glVertex2f(90,55);
+        glVertex2f(50,55);
+    glEnd();
 
-        if(SOUND_BOOL==1){
-            SOUND_BOOL = PlaySound(NULL, NULL, SND_PURGE);
-            SOUND_BOOL = 0;
-            printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
-        }
+    // Trees
+    create_object(2,55);
+    create_object(78,53);
+    create_object(5,45);
+    create_object(75,38);
+    create_object(70,50);
+    create_object(3,30);
 
-    }
-    */
+    // Clouds
+    create_cloud(7, 67);
+    create_cloud(13, 65);
+    create_cloud(12, 69);
 
-    /*
-    if(gv == 1 && SOUND_BOOL==0){
-        SOUND_BOOL = PlaySound(NULL, NULL, SND_PURGE);
-        SOUND_BOOL = 0;
-        printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
-    }
+    create_cloud(40, 65);
+    create_cloud(38, 67);
+    create_cloud(43, 64);
 
-    if(start==0 && SOUND_BOOL==0 && 0){
-        SOUND_BOOL = PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
-        printf("SOUND_BOOL=%d\n", SOUND_BOOL);
-        if (SOUND_BOOL){
-            SOUND_BOOL = 1;
-        }
-        printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
-    }
-    */
-        //Road Backgound
-        glColor3f(0.000, 0.392, 0.000);
+    create_cloud(75, 68);
+    create_cloud(68, 70);
+
+    //Text Information in Frist Page
+    int title_posy = 80;
+
+    //glColor3f(0.50, 0.60, 1.00);
+    glBegin(GL_POLYGON);
+        glColor3f(1.0f, 0.99f, 1.0f); // make this vertex purple
+        glVertex2f(40-4,title_posy+5+2);
+        glColor3f(1.0f, 0.99f, 0.0f); // make this vertex red
+        glVertex2f(40+30,title_posy+5+2);
+        glColor3f(0.0f, 0.99f, 0.0f); // make this vertex green
+        //glColor3f(1.0f, 0.99f, 0.0f); // make this vertex red
+        glVertex2f(40+30,title_posy-7+2);
+        //glColor3f(1.0f, 1.1f, 0.0f); // make this vertex yellow
+        glColor3f(1.0f, 0.50f, 1.0f); // make this vertex purple
+        glVertex2f(40-4,title_posy-7+2);
+    glEnd();
+
+    glColor3f(0.000, 0.000, 0.000);
+    renderBitmapString(40, title_posy,(void *)font1, GAME_TITLE);
+
+    // relative position of "Help" box
+    int help_rel_posy = title_posy-30;
+
+    // if game is over
+    if(gv==1){
+        int score_board_h = 10;
+        int score_board_rel_posy = title_posy - 20;
+
+        //Score Board Place Holder
+        //glColor3f(0.098, 0.098, 0.439);
+        glColor3f(0.20, 0.50, 0.60);
         glBegin(GL_POLYGON);
-            glVertex2f(0,55);
-            glVertex2f(100,55);
-            glColor3f(0.604, 0.804, 0.196);
-            glVertex2f(100,50-50);
-            glVertex2f(0,50-50);
-        glEnd();
-        //Road Design In Front Page
-        //glColor3f(0, 0, 0);
-        glColor3f(0.412, 0.412, 0.412);
-        glBegin(GL_TRIANGLES);
-            glVertex2f(32-2+21,55);
-            glVertex2f(32+58,50-50);
-            glVertex2f(32-22,50-50);
-        glEnd();
-        //Road Midle
-        glColor3f(1, 1, 1);
-        glBegin(GL_TRIANGLES);
-            glVertex2f(32-2+21,55);
-            glVertex2f(50+2,50-50);
-            glVertex2f(50-2,50-50);
-        glEnd();
-         //Road Sky
-        glColor3f(0.000, 0.749, 1.000);
-        glBegin(GL_POLYGON);
-            glVertex2f(100,100);
-            glVertex2f(0,100);
-            glColor3f(0.686, 0.933, 0.933);
-            glVertex2f(0,55);
-            glVertex2f(100,55);
-        glEnd();
-        //Hill 1
-        glColor3f(0.235, 0.702, 0.443);
-        glBegin(GL_TRIANGLES);
-            glVertex2f(20,55+10);
-            glVertex2f(20+7,55);
-            glVertex2f(0,55);
-        glEnd();
-        //Hill 2
-        glColor3f(0.000, 0.502, 0.000);
-            glBegin(GL_TRIANGLES);
-            glVertex2f(20+15,55+20);
-            glVertex2f(20+20+10,55);
-            glVertex2f(0+10,55);
-        glEnd();
-        //Hill 4
-        glColor3f(0.235, 0.702, 0.443);
-        glBegin(GL_TRIANGLES);
-            glVertex2f(87,55+12);
-            glVertex2f(100,55);
-            glVertex2f(60,55);
-        glEnd();
-         //Hill 3
-        glColor3f(0.000, 0.502, 0.000);
-        glBegin(GL_TRIANGLES);
-            glVertex2f(70,70);
-            glVertex2f(90,55);
-            glVertex2f(50,55);
-        glEnd();
-
-        // Trees
-        create_object(2,55);
-        create_object(78,53);
-        create_object(5,45);
-        create_object(75,38);
-        create_object(70,50);
-        create_object(3,30);
-
-        // Clouds
-        create_cloud(7, 67);
-        create_cloud(13, 65);
-        create_cloud(12, 69);
-
-        create_cloud(40, 65);
-        create_cloud(38, 67);
-        create_cloud(43, 64);
-
-        create_cloud(75, 68);
-        create_cloud(68, 70);
-
-        //Text Information in Frist Page
-        int title_posy = 80;
-
-        //glColor3f(0.50, 0.60, 1.00);
-        glBegin(GL_POLYGON);
-            glColor3f(1.0f, 0.99f, 1.0f); // make this vertex purple
-            glVertex2f(40-4,title_posy+5+2);
-            glColor3f(1.0f, 0.99f, 0.0f); // make this vertex red
-            glVertex2f(40+30,title_posy+5+2);
-            glColor3f(0.0f, 0.99f, 0.0f); // make this vertex green
-            //glColor3f(1.0f, 0.99f, 0.0f); // make this vertex red
-            glVertex2f(40+30,title_posy-7+2);
-            //glColor3f(1.0f, 1.1f, 0.0f); // make this vertex yellow
-            glColor3f(1.0f, 0.50f, 1.0f); // make this vertex purple
-            glVertex2f(40-4,title_posy-7+2);
+            glColor3f(1.0f, 0.99f, 1.0f);
+            glVertex2f(40-4,score_board_rel_posy+5+10);
+            glColor3f(1.0f, 0.99f, 0.0f);
+            glVertex2f(40+26+4,score_board_rel_posy+5+10);
+            glColor3f(0.0f, 0.99f, 0.0f);
+            glVertex2f(32+46,score_board_rel_posy-15+10);
+            glColor3f(1.0f, 0.50f, 1.0f);
+            glVertex2f(32-4,score_board_rel_posy-15+10);
         glEnd();
 
         glColor3f(0.000, 0.000, 0.000);
-        renderBitmapString(40, title_posy,(void *)font1, GAME_TITLE);
+        renderBitmapString(43,score_board_rel_posy+score_board_h,(void *)font1,"GAME OVER");
+        glColor3f(0.000, 0.000, 0.000);
+        char buffer2 [50];
+        sprintf (buffer2, "Your Score is : %d", score);
+        renderBitmapString(41,score_board_rel_posy+score_board_h-4,(void *)font1,buffer2);
+        glColor3f(0.000, 0.000, 0.000);
+        char buffer3 [50];
+        sprintf (buffer3, "Max Level is : %d", level);
+        renderBitmapString(41,score_board_rel_posy+score_board_h-8,(void *)font1,buffer3);
 
-        // relative position of "Help" box
-        int help_rel_posy = title_posy-30;
+        // update relative help box
+        help_rel_posy = help_rel_posy - score_board_h;
+    }
 
-        // if game is over
-        if(gv==1){
-            int score_board_h = 10;
-            int score_board_rel_posy = title_posy - 20;
+    //Help Menu Place Holder
+    glColor3f(1.000, 1.000, 1.000);
+    glBegin(GL_LINES);
+        glVertex2f(32-4, help_rel_posy+5+10);
+        glVertex2f(32+46, help_rel_posy+5+10);
+    glEnd();
+    glColor3f(0.098, 0.098, 0.439);
+    glBegin(GL_POLYGON);
+        glVertex2f(32-4,help_rel_posy+5+10);
+        glVertex2f(32+46,help_rel_posy+5+10);
+        glVertex2f(32+46,help_rel_posy-15+10);
+        glVertex2f(32-4,help_rel_posy-15+10);
+    glEnd();
 
-            //Score Board Place Holder
-            //glColor3f(0.098, 0.098, 0.439);
-            glColor3f(0.20, 0.50, 0.60);
-            glBegin(GL_POLYGON);
-                glColor3f(1.0f, 0.99f, 1.0f);
-                glVertex2f(40-4,score_board_rel_posy+5+10);
-                glColor3f(1.0f, 0.99f, 0.0f);
-                glVertex2f(40+26+4,score_board_rel_posy+5+10);
-                glColor3f(0.0f, 0.99f, 0.0f);
-                glVertex2f(32+46,score_board_rel_posy-15+10);
-                glColor3f(1.0f, 0.50f, 1.0f);
-                glVertex2f(32-4,score_board_rel_posy-15+10);
-            glEnd();
-
-            glColor3f(0.000, 0.000, 0.000);
-            renderBitmapString(43,score_board_rel_posy+score_board_h,(void *)font1,"GAME OVER");
-            glColor3f(0.000, 0.000, 0.000);
-            char buffer2 [50];
-            sprintf (buffer2, "Your Score is : %d", score);
-            renderBitmapString(41,score_board_rel_posy+score_board_h-4,(void *)font1,buffer2);
-            glColor3f(0.000, 0.000, 0.000);
-            char buffer3 [50];
-            sprintf (buffer3, "Max Level is : %d", level);
-            renderBitmapString(41,score_board_rel_posy+score_board_h-8,(void *)font1,buffer3);
-
-            // update relative help box
-            help_rel_posy = help_rel_posy - score_board_h;
-        }
-
-        //Help Menu Place Holder
-        glColor3f(1.000, 1.000, 1.000);
-        glBegin(GL_LINES);
-            glVertex2f(32-4, help_rel_posy+5+10);
-            glVertex2f(32+46, help_rel_posy+5+10);
-        glEnd();
-        glColor3f(0.098, 0.098, 0.439);
-        glBegin(GL_POLYGON);
-            glVertex2f(32-4,help_rel_posy+5+10);
-            glVertex2f(32+46,help_rel_posy+5+10);
-            glVertex2f(32+46,help_rel_posy-15+10);
-            glVertex2f(32-4,help_rel_posy-15+10);
-        glEnd();
-
-        glColor3f(0.000, 1.000, 0.000);
-        renderBitmapString(30+15,help_rel_posy+1.5+10,(void *)font2,"Control Info");
-        glColor3f(1.000, 1.000, 1.000);
-        glPushAttrib(GL_ENABLE_BIT);
-        // glPushAttrib is done to return everything to normal after drawing
-        glLineStipple(1, 0xAAAA);  // [1]
-        glEnable(GL_LINE_STIPPLE);
-        glBegin(GL_LINES);
-            glVertex2f(32-4, help_rel_posy+1.30+10);
-            glVertex2f(32+46, help_rel_posy+1.30+10);
-        glEnd();
-        glPopAttrib();
-        // renderBitmapString(30+10,help_rel_posy+1.49+10,(void *)font2,"____");
-        glColor3f(0.200, 1.000, 0.900);
-        renderBitmapString(30,help_rel_posy-2+10,(void *)font2,"Press SPACE to START New Game");
-        renderBitmapString(30,help_rel_posy-2-3+10,(void *)font2,"Press ESC to Exit");
-        glColor3f(1.000, 1.000, 1.000);
-        renderBitmapString(30,help_rel_posy-1-6+10,(void *)font3,"Press UP Arrow Button to increase Speed");
-        renderBitmapString(30,help_rel_posy-1-8+10,(void *)font3,"Press DWON Arrow Button to decrease Speed");
-        renderBitmapString(30,help_rel_posy-1-10+10,(void *)font3,"Press RIGHT Arrow Button to turn Right");
-        renderBitmapString(30,help_rel_posy-1-12+10,(void *)font3,"Press LEFT Arrow Button to turn Left");
-        glColor3f(0.000, 1.000, 0.000);
-        renderBitmapString(60-5,50-40,(void *)font2,"Created By :");
-        glColor3f(1.000, 1.000, 0.000);
-        renderBitmapString(60-5,50-43,(void *)font2,TEAM_TITLE);
+    glColor3f(0.000, 1.000, 0.000);
+    renderBitmapString(30+15,help_rel_posy+1.5+10,(void *)font2,"Control Info");
+    glColor3f(1.000, 1.000, 1.000);
+    glPushAttrib(GL_ENABLE_BIT);
+    // glPushAttrib is done to return everything to normal after drawing
+    glLineStipple(1, 0xAAAA);  // [1]
+    glEnable(GL_LINE_STIPPLE);
+    glBegin(GL_LINES);
+        glVertex2f(32-4, help_rel_posy+1.30+10);
+        glVertex2f(32+46, help_rel_posy+1.30+10);
+    glEnd();
+    glPopAttrib();
+    // renderBitmapString(30+10,help_rel_posy+1.49+10,(void *)font2,"____");
+    glColor3f(0.200, 1.000, 0.900);
+    renderBitmapString(30,help_rel_posy-2+10,(void *)font2,"Press SPACE to START New Game");
+    renderBitmapString(30,help_rel_posy-2-3+10,(void *)font2,"Press ESC to Exit");
+    glColor3f(1.000, 1.000, 1.000);
+    renderBitmapString(30,help_rel_posy-1-6+10,(void *)font3,"Press UP Arrow Button to increase Speed");
+    renderBitmapString(30,help_rel_posy-1-8+10,(void *)font3,"Press DWON Arrow Button to decrease Speed");
+    renderBitmapString(30,help_rel_posy-1-10+10,(void *)font3,"Press RIGHT Arrow Button to turn Right");
+    renderBitmapString(30,help_rel_posy-1-12+10,(void *)font3,"Press LEFT Arrow Button to turn Left");
+    glColor3f(0.000, 1.000, 0.000);
+    renderBitmapString(60-5,50-40,(void *)font2,"Created By :");
+    glColor3f(1.000, 1.000, 0.000);
+    renderBitmapString(60-5,50-43,(void *)font2,TEAM_TITLE);
 }
 void display(){
     if(CURR_STAGE==1 && start==0){
@@ -662,7 +612,7 @@ void display(){
         if(SOUND_BOOL==0){
             PlaySound(TEXT(BEGIN_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
             SOUND_BOOL = 1;
-            printf("SOUND_BOOL=%d ", SOUND_BOOL);
+            //printf("SOUND_BOOL=%d ", SOUND_BOOL);
         }
     }
 
@@ -758,19 +708,6 @@ int main(int argc, char *argv[])
     glOrtho(0,100,0,100,-1,1);
     glClearColor(0.184, 0.310, 0.310,1);
     glutTimerFunc(1000,timer,0);
-    printf("*********************************");
-
-    /*
-    if(gv == 1){
-        SOUND_BOOL = PlaySound(TEXT(RACING_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
-        printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
-    }
-    else{
-        SOUND_BOOL = PlaySound(NULL, NULL, SND_PURGE);
-        printf("gv=%d, SOUND_BOOL=%d\n", gv, SOUND_BOOL);
-    }
-    */
-    // PlaySound(TEXT(RACING_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
     glutMainLoop();
     return 0;
 }
