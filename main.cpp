@@ -332,7 +332,6 @@ Car car2(1, 0, 33);
 // Random car 3
 Car car3(1, 0, 66);
 
-
 void renderBitmapString(float x, float y, void *font,const char *string){
     const char *c;
     glRasterPos2f(x, y);
@@ -364,6 +363,92 @@ void createTree(int x, int y){
         glVertex2f(x+4,y+h+7);
     glEnd();
 }
+
+class Tree{
+    public:
+        int x, y;
+        int width, height;
+        int zone;
+
+        Tree(int _z, int _x, int _y, int _w=10, int _h=13){
+            if(_z==1){
+                zone = _z;
+            }
+            else{
+                zone = 2;
+            }
+
+            x = _x;
+            y = _y;
+            width = _w;
+            height = _h;
+        }
+
+        void draw(){
+            int h = 6;
+            //Bottom
+            glColor3f(0.871, 0.722, 0.529);
+            glBegin(GL_TRIANGLES);
+                glVertex2f(x+5,y+100+h+3);
+                glVertex2f(x+6,y+100);
+                glVertex2f(x+4,y+100);
+            glEnd();
+            // Top
+            glColor3f(0.133, 0.545, 0.133);
+            glBegin(GL_POLYGON);
+                glVertex2f(x+6,y+100+h+6);
+                glVertex2f(x+8,y+100+h+4);
+                glVertex2f(x+7,y+100+h+4);
+                glVertex2f(x+10,y+100+h);
+
+                glVertex2f(x,y+100+h);
+                glVertex2f(x+1,y+100+h+4);
+                glVertex2f(x+2,y+100+h+4);
+                glVertex2f(x+4,y+100+h+7);
+            glEnd();
+        }
+
+        void move(){
+            y--;
+            if(y<-113){
+                // that means tree cross the bottom
+                y=0;
+                // calculate random x for tree
+                if(zone==1){
+                    int rand_x = rand()%7;
+                    x = 0.5 + rand_x;
+                }
+                else{
+                    int rand_x = rand()%20;
+                    x = 70 + rand_x;
+                }
+            }
+        }
+
+        void reset(){
+            // randomly calculate y
+            int rand_y = rand()%80;
+            y = -1*rand_y;
+            if(zone==1){
+                int rand_x = rand()%7;
+                x = 0.5 + rand_x;
+            }
+            else{
+                int rand_x = rand()%20;
+                x = 70 + rand_x;
+            }
+            move();
+        }
+};
+
+// Trees
+Tree tree1(1, 1, -15);
+Tree tree2(1, 5, -45);
+Tree tree3(1, 1, -75);
+
+Tree tree4(2, 76, -13);
+Tree tree5(2, 85, -45);
+Tree tree6(2, 76, -75);
 
 void createCloud(int x, int y){
     int h = 5;
@@ -507,6 +592,56 @@ void startGame(){
     // Bottom section end
     //Road Divider end
 
+    // rider car
+    car.draw();
+
+    // Road cars
+    car1.draw();
+    car1.move();
+    if(car1.is_collide()){
+        start = 0;
+        gv=1;
+    }
+
+    car2.draw();
+    car2.move();
+    if(car2.is_collide()){
+        start = 0;
+        gv=1;
+    }
+
+    car3.draw();
+    car3.move();
+    if(car3.is_collide()){
+        start = 0;
+        gv=1;
+    }
+
+    // Road side trees start
+    // Left side start
+    tree1.draw();
+    tree1.move();
+
+    tree2.draw();
+    tree2.move();
+
+    tree3.draw();
+    tree3.move();
+    // Left side end
+
+    // Right side start
+    tree4.draw();
+    tree4.move();
+
+    tree5.draw();
+    tree5.move();
+
+    tree6.draw();
+    tree6.move();
+    // Right side start
+    // Road side trees end
+
+
     //Score Board
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
@@ -543,30 +678,6 @@ void startGame(){
     glColor3f(0.000, 1.000, 0.000);
     renderBitmapString(80.5,95-4,(void *)font3,level_buffer);
 
-    // rider car
-    car.draw();
-
-    // Road cars
-    car1.draw();
-    car1.move();
-    if(car1.is_collide()){
-        start = 0;
-        gv=1;
-    }
-
-    car2.draw();
-    car2.move();
-    if(car2.is_collide()){
-        start = 0;
-        gv=1;
-    }
-
-    car3.draw();
-    car3.move();
-    if(car3.is_collide()){
-        start = 0;
-        gv=1;
-    }
 
     // level up show
     glColor3f(0.0f, 0.99f, 0.20f);
@@ -867,6 +978,20 @@ void processKeys(unsigned char key, int x, int y) {
                 car1.reset(1, 0, 0);
                 car2.reset(1, 0, +33);
                 car3.reset(1, 34, +66);
+
+                // Road side trees start
+                // Left side start
+                tree1.reset();
+                tree2.reset();
+                tree3.reset();
+                // Left side end
+
+                // Right side start
+                tree4.reset();
+                tree5.reset();
+                tree6.reset();
+                // Right side start
+                // Road side trees end
             }
             break;
         case 27:
