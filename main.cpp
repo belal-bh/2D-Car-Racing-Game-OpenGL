@@ -54,7 +54,7 @@ int level = 0;
 //Track Score
 int score = 0;
 
-//Form move track
+//For move track
 int roadDivTopMost = 0;
 int roadDivTop = 0;
 int roadDivMdl = 0;
@@ -77,7 +77,7 @@ class Car{
         // will be shared across all cars
         static int slrIndex;
         static int collide, slane;
-        int lane, lrIndex, car;
+        int lane, lrIndex, car; // car : y-axis
         int is_rider;
         double r1, g1, b1, r2, g2, b2;
         Car(int ln=0, int lri=0, int c=0, int rider=0){
@@ -228,6 +228,8 @@ class Car{
                 // inside car end
             }
         }
+        /// slrIndex -> Rider
+        /// lrIndex -> incoming car
         int is_collide(){
             if((abs(slrIndex-lrIndex)<=8) && (car+100<27)){
                 collide = 1;
@@ -322,8 +324,9 @@ class Car{
 int Car::slrIndex = 0;
 int Car::collide = 0;
 
+/// Car(lane,lrIndex, car, is_rider)
 // Rider car
-Car car(1, 17, 12, 1);
+Car car(1, 17, 0, 1);
 
 // Random car 1
 Car car1(1, 0, 0);
@@ -440,12 +443,14 @@ class Tree{
             move();
         }
 };
-
+///Tree(zone, x, y)
 // Trees
+// Left Side
 Tree tree1(1, 1, -15);
 Tree tree2(1, 5, -45);
 Tree tree3(1, 1, -75);
 
+// Right Side
 Tree tree4(2, 76, -13);
 Tree tree5(2, 85, -45);
 Tree tree6(2, 76, -75);
@@ -695,7 +700,7 @@ void startGame(){
 
 }
 
-void startCreen(){
+void startScreen(){
     if(LAST_STAGE!=CURR_STAGE){
         if(SOUND_BOOL==1){
             PlaySound(NULL, 0, 0);
@@ -914,14 +919,17 @@ void display(){
             //printf("SOUND_BOOL=%d ", SOUND_BOOL);
         }
     }
-
+    /*A call to glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    clears the OpenGL color and depth buffers (or any other buffer or combination of buffers).
+    OpenGL being a state machine, it is good practice to start each frame with a clean slate.
+    */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if(start==1){
         glClearColor(0.000, 0.392, 0.000,1);
         startGame();
     }
     else{
-        startCreen();
+        startScreen();
     }
     glFlush();
     glutSwapBuffers();
@@ -974,6 +982,7 @@ void processKeys(unsigned char key, int x, int y) {
 
                 score=0;
                 level=0;
+                /// reset(lane, lrIdex, car)
                 car.reset(0, 17, 0);
                 car1.reset(1, 0, 0);
                 car2.reset(1, 0, +33);
@@ -1013,14 +1022,34 @@ int main(int argc, char *argv[])
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
     glutInitWindowSize(800,600);
+    /// Initial Window Position when its open
     glutInitWindowPosition(200,20);
+    /// window title
     glutCreateWindow(GAME_TITLE);
     glutDisplayFunc(display);
+
+    /*glutSpecialFunc is not invoked continuously when a key is held down.
+    The callback is called once when a key is pressed.*/
     glutSpecialFunc(spe_key);
-    glutKeyboardFunc(processKeys );
+
+    ///  glutKeyboardFunc sets the keyboard callback for the current window.
+    glutKeyboardFunc(processKeys);
+
+    /// x = [0,100], y = [0,100], z = [-1,1]
     glOrtho(0,100,0,100,-1,1);
     glClearColor(0.184, 0.310, 0.310,1);
     glutTimerFunc(1000,timer,0);
     glutMainLoop();
     return 0;
 }
+
+
+/*
+glutInitDisplayMode:
+
+glutInitDisplayMode - inits display mode
+
+GLUT_DOUBLE - allows for display on the double buffer window
+
+GLUT_RGBA - shows color (Red, green, blue) and an alpha
+*/
