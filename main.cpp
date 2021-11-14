@@ -10,8 +10,26 @@
 #include <iostream>
 #include <string>
 #include <time.h>
+#include <fstream>
 using namespace std;
 
+
+// if you want to clear the history set, user_history = true otherwise false
+bool user_history = false;
+char user_level_file[] = "score.txt";
+void clear_user_history(bool flag){
+
+    if(flag){
+        fstream my_file;
+        my_file.open(user_level_file, ios::out);
+        my_file<<"0";
+        my_file.close();
+    }
+}
+
+// game score
+int heighest_score = 0;
+string str = "";
 // game title
 char GAME_TITLE[] = "Car Racing Game";
 
@@ -821,6 +839,23 @@ void startScreen(){
 
     // if game is over
     if(gv==1){
+
+        /// compare the result
+
+        int m_val = (int) atoi(str.c_str());
+        //cout<<"m_val"<<level<<endl;
+        if(m_val < level){
+            fstream my_file;
+            //my_file.open("C:/Users/CodeZerro/Desktop/projects/graphics/test-first/test1.txt", ios::out);
+            my_file.open(user_level_file, ios::out);
+
+            my_file<<level;
+            my_file.close();
+            heighest_score = level;
+
+        }
+
+
         int score_board_h = 10-2;
         int score_board_rel_posy = title_posy - 20;
 
@@ -846,7 +881,7 @@ void startScreen(){
         renderBitmapString(41,score_board_rel_posy+score_board_h-4,(void *)font1,buffer2);
         glColor3f(0.000, 0.000, 0.000);
         char buffer3 [50];
-        sprintf (buffer3, "Max Level is : %d", level);
+        sprintf (buffer3, "Max Level is : %d", max(heighest_score,atoi(str.c_str())));
         renderBitmapString(41,score_board_rel_posy+score_board_h-8,(void *)font1,buffer3);
 
         // update relative help box
@@ -1017,8 +1052,38 @@ void timer(int){
     glutTimerFunc(1000/FPS,timer,0);
 }
 
+/// Score File
+void score_file(){
+ // score text start
+    //game score
+    fstream my_file;
+    //my_file.open("C:/Users/CodeZerro/Desktop/projects/graphics/test-first/test1.txt", ios::in);
+    my_file.open(user_level_file, ios::in);
+
+    //my_file.open("test.txt", ios::out);
+    if (!my_file) {
+            cout << "No such file"<<endl;
+    }
+    else {
+        char ch;
+
+        while (1) {
+            my_file >> ch;
+            if (my_file.eof())
+                break;
+            else str += ch;
+        }
+
+    }
+    my_file.close();
+}
+
 int main(int argc, char *argv[])
 {
+    // user clear history
+    clear_user_history(user_history);
+
+    score_file();
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
     glutInitWindowSize(800,600);
