@@ -61,6 +61,8 @@ int roadDivMdl = 0;
 int roadDivBtm = 0;
 //For Card Left / RIGHT
 int lrIndex = 0 ;
+int b_indx=100;
+int p_score=100;
 
 //For Display TEXT
 const int font1=(int)GLUT_BITMAP_TIMES_ROMAN_24;
@@ -226,7 +228,7 @@ class Car{
             }
         }
         int is_collide(){
-            if((abs(slrIndex-lrIndex)<=8) && (car+100<23)){
+            if((abs(slrIndex-lrIndex)<=8) && (car+100<27)){
                 collide = 1;
                 return collide;
             }
@@ -485,6 +487,7 @@ void startGame(){
         score++;
     }
 
+
     //Score Board
     glColor3f(0.000, 0.000, 0.000);
     glBegin(GL_POLYGON);
@@ -493,7 +496,8 @@ void startGame(){
         glVertex2f(100,98-8);
         glVertex2f(80,98-8);
     glEnd();
-    //Print Score
+
+
     char buffer [50];
     sprintf (buffer, "SCORE: %d", score);
     glColor3f(0.000, 1.000, 0.000);
@@ -503,12 +507,16 @@ void startGame(){
     sprintf (buffer1, "SPEED:%dKm/h", FPS);
     glColor3f(0.000, 1.000, 0.000);
     renderBitmapString(80.5,95-2,(void *)font3,buffer1);
+    if(score-p_score==3) b_indx=100;
     //level Print
     if(score % LEVEL_UP_SCORE == 0){
         int last = score /LEVEL_UP_SCORE;
         if(last!=level){
             level = score /LEVEL_UP_SCORE;
             FPS=FPS+LEVEL_DELTA_V;
+            b_indx=0;
+            p_score=score;
+            car.update_color();
         }
     }
     char level_buffer [50];
@@ -540,6 +548,20 @@ void startGame(){
         start = 0;
         gv=1;
     }
+    //level show
+glColor3f(0.0f, 0.99f, 0.20f);
+    glBegin(GL_POLYGON);
+        glVertex2f(b_indx+33,60);
+        glVertex2f(b_indx+33,70);
+        glColor3f(1.0f, 0.99f, 0.0f);
+        glVertex2f(b_indx+52,70);
+        glVertex2f(b_indx+52,60);
+    glEnd();
+    char level_show [50];
+    sprintf (level_show, "LEVEL: %d", level);
+    glColor3f(0.000, 0.000, 0.000);
+    renderBitmapString(b_indx+36,63,(void *)font1,level_show);
+
 }
 void startCreen(){
     if(LAST_STAGE!=CURR_STAGE){
@@ -689,6 +711,8 @@ void startCreen(){
 
         // update relative help box
         help_rel_posy = help_rel_posy - score_board_h;
+        p_score=100;
+        b_indx=100;
     }
 
     //Help Menu Place Holder
