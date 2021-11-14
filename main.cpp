@@ -60,7 +60,8 @@ int roadDivTop = 0;
 int roadDivMdl = 0;
 int roadDivBtm = 0;
 //For Card Left / RIGHT
-int lrIndex = 0 ;
+int lrIndex = 0;
+// variable for showing level up score
 int b_indx=100;
 int p_score=100;
 
@@ -238,8 +239,14 @@ class Car{
         int move(){
             car--;
             if(car<-100){
+                // that means car cross the bottom
                 car=0;
-                lrIndex = slrIndex;
+                // calculate random lrIndex for car
+                if(!is_rider){
+                    int rand_len = rand()%3;
+                    lrIndex = rand_len*17;
+                    //lrIndex = slrIndex;
+                }
                 update_color();
             }
             return 0;
@@ -315,15 +322,15 @@ class Car{
 int Car::slrIndex = 0;
 int Car::collide = 0;
 
-//Car Coming
-Car car(1, 0, 12, 1);
-//car.set_slrIndex(0);
+// Rider car
+Car car(1, 17, 12, 1);
+
+// Random car 1
 Car car1(1, 0, 0);
-//int lrIndex1=0;
-Car car2(1, 0, +33);
-//int lrIndex2=0;
-Car car3(1, 0, +66);
-//int lrIndex3=0;
+// Random car 2
+Car car2(1, 0, 33);
+// Random car 3
+Car car3(1, 0, 66);
 
 
 void renderBitmapString(float x, float y, void *font,const char *string){
@@ -334,7 +341,7 @@ void renderBitmapString(float x, float y, void *font,const char *string){
     }
 }
 
-void create_object(int x, int y){
+void createTree(int x, int y){
     int h = 6;
     //Bottom
     glColor3f(0.871, 0.722, 0.529);
@@ -358,7 +365,7 @@ void create_object(int x, int y){
     glEnd();
 }
 
-void create_cloud(int x, int y){
+void createCloud(int x, int y){
     int h = 5;
     glColor3f(0.901, 0.912, 0.999);
     glBegin(GL_POLYGON);
@@ -393,7 +400,7 @@ void startGame(){
     }
 
     if(SOUND_BOOL==0){
-        printf("Game Start!\n"); // BEGIN_F, RACING_F
+        //printf("Game Start!\n"); // BEGIN_F, RACING_F
         SOUND_BOOL = PlaySound(TEXT(RACING_F), NULL, SND_ASYNC|SND_FILENAME|SND_LOOP);
         if (SOUND_BOOL){
             SOUND_BOOL = 1;
@@ -427,8 +434,10 @@ void startGame(){
         glVertex2f(70,100);
         glVertex2f(70,0);
     glEnd();
-    //Road Middel Border
-        //TOP
+
+    //Road Divider start
+    // TOP section start
+    // lane 1
     glColor3f(1.000, 1.000, 1.000);
     glBegin(GL_POLYGON);
         glVertex2f(33,roadDivTop+80);
@@ -437,25 +446,30 @@ void startGame(){
         glVertex2f(35,roadDivTop+80);
     glEnd();
 
+    // lane 2
     glBegin(GL_POLYGON);
         glVertex2f(50,roadDivTop+80);
         glVertex2f(50,roadDivTop+100);
         glVertex2f(52,roadDivTop+100);
         glVertex2f(52,roadDivTop+80);
     glEnd();
+
     roadDivTop--;
     if(roadDivTop<-100){
         roadDivTop =20;
         score++;
     }
-        //Midle
-    //glColor3f(0.000, 1.000, 0.000);
+    // Top section end
+
+    // Middle section start
+    // lane 1
     glBegin(GL_POLYGON);
         glVertex2f(33,roadDivMdl+40);
         glVertex2f(33,roadDivMdl+60);
         glVertex2f(35,roadDivMdl+60);
         glVertex2f(35,roadDivMdl+40);
     glEnd();
+    // lane 2
     glBegin(GL_POLYGON);
         glVertex2f(50,roadDivMdl+40);
         glVertex2f(50,roadDivMdl+60);
@@ -467,14 +481,18 @@ void startGame(){
         roadDivMdl =60;
         score++;
     }
-        //Bottom
-    //glColor3f(1.000, 0.000, 0.000);
+    // Middle section end
+
+
+    // Bottom section start
+    // lane 1
     glBegin(GL_POLYGON);
         glVertex2f(33,roadDivBtm+0);
         glVertex2f(33,roadDivBtm+20);
         glVertex2f(35,roadDivBtm+20);
         glVertex2f(35,roadDivBtm+0);
     glEnd();
+    // lane 2
     glBegin(GL_POLYGON);
         glVertex2f(50,roadDivBtm+0);
         glVertex2f(50,roadDivBtm+20);
@@ -486,7 +504,8 @@ void startGame(){
         roadDivBtm=100;
         score++;
     }
-
+    // Bottom section end
+    //Road Divider end
 
     //Score Board
     glColor3f(0.000, 0.000, 0.000);
@@ -548,8 +567,9 @@ void startGame(){
         start = 0;
         gv=1;
     }
-    //level show
-glColor3f(0.0f, 0.99f, 0.20f);
+
+    // level up show
+    glColor3f(0.0f, 0.99f, 0.20f);
     glBegin(GL_POLYGON);
         glVertex2f(b_indx+33,60);
         glVertex2f(b_indx+33,70);
@@ -563,6 +583,7 @@ glColor3f(0.0f, 0.99f, 0.20f);
     renderBitmapString(b_indx+36,63,(void *)font1,level_show);
 
 }
+
 void startCreen(){
     if(LAST_STAGE!=CURR_STAGE){
         if(SOUND_BOOL==1){
@@ -591,14 +612,15 @@ void startCreen(){
         glVertex2f(32+58,50-50);
         glVertex2f(32-22,50-50);
     glEnd();
-    //Road Midle
+
+    //Road Middle
     glColor3f(1, 1, 1);
     glBegin(GL_TRIANGLES);
         glVertex2f(32-2+21,55);
         glVertex2f(50+2,50-50);
         glVertex2f(50-2,50-50);
     glEnd();
-     //Road Sky
+    //Sky
     glColor3f(0.000, 0.749, 1.000);
     glBegin(GL_POLYGON);
         glVertex2f(100,100);
@@ -607,6 +629,7 @@ void startCreen(){
         glVertex2f(0,55);
         glVertex2f(100,55);
     glEnd();
+
     //Hill 1
     glColor3f(0.235, 0.702, 0.443);
     glBegin(GL_TRIANGLES);
@@ -614,6 +637,7 @@ void startCreen(){
         glVertex2f(20+7,55);
         glVertex2f(0,55);
     glEnd();
+
     //Hill 2
     glColor3f(0.000, 0.502, 0.000);
         glBegin(GL_TRIANGLES);
@@ -621,6 +645,7 @@ void startCreen(){
         glVertex2f(20+20+10,55);
         glVertex2f(0+10,55);
     glEnd();
+
     //Hill 4
     glColor3f(0.235, 0.702, 0.443);
     glBegin(GL_TRIANGLES);
@@ -628,6 +653,7 @@ void startCreen(){
         glVertex2f(100,55);
         glVertex2f(60,55);
     glEnd();
+
      //Hill 3
     glColor3f(0.000, 0.502, 0.000);
     glBegin(GL_TRIANGLES);
@@ -637,39 +663,37 @@ void startCreen(){
     glEnd();
 
     // Trees
-    create_object(2,55);
-    create_object(78,53);
-    create_object(5,45);
-    create_object(75,38);
-    create_object(70,50);
-    create_object(3,30);
+    createTree(2,55);
+    createTree(78,53);
+    createTree(5,45);
+    createTree(75,38);
+    createTree(70,50);
+    createTree(3,30);
 
     // Clouds
-    create_cloud(7, 67);
-    create_cloud(13, 65);
-    create_cloud(12, 69);
+    createCloud(7, 67);
+    createCloud(13, 65);
+    createCloud(12, 69);
 
-    create_cloud(40, 65);
-    create_cloud(38, 67);
-    create_cloud(43, 64);
+    createCloud(40, 65);
+    createCloud(38, 67);
+    createCloud(43, 64);
 
-    create_cloud(75, 68);
-    create_cloud(68, 70);
+    createCloud(75, 68);
+    createCloud(68, 70);
 
-    //Text Information in Frist Page
+    //Text Information in Front Page
     int title_posy = 80;
 
     //glColor3f(0.50, 0.60, 1.00);
     glBegin(GL_POLYGON);
-        glColor3f(1.0f, 0.99f, 1.0f); // make this vertex purple
+        glColor3f(1.0f, 0.99f, 1.0f);
         glVertex2f(40-4,title_posy+5+2);
-        glColor3f(1.0f, 0.99f, 0.0f); // make this vertex red
+        glColor3f(1.0f, 0.99f, 0.0f);
         glVertex2f(40+30,title_posy+5+2);
-        glColor3f(0.0f, 0.99f, 0.0f); // make this vertex green
-        //glColor3f(1.0f, 0.99f, 0.0f); // make this vertex red
+        glColor3f(0.0f, 0.99f, 0.0f);
         glVertex2f(40+30,title_posy-7+2);
-        //glColor3f(1.0f, 1.1f, 0.0f); // make this vertex yellow
-        glColor3f(1.0f, 0.50f, 1.0f); // make this vertex purple
+        glColor3f(1.0f, 0.50f, 1.0f);
         glVertex2f(40-4,title_posy-7+2);
     glEnd();
 
@@ -757,17 +781,17 @@ void startCreen(){
 }
 void display(){
     if(CURR_STAGE==1 && start==0){
-        printf("(Score Board)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
+        //printf("(Score Board)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
         LAST_STAGE = CURR_STAGE;
         CURR_STAGE = 2;
     }
     else if(CURR_STAGE==2 && start==1){
-        printf("(Racing)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
+        //printf("(Racing)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
         LAST_STAGE = CURR_STAGE;
         CURR_STAGE = 1;
     }
     else if(CURR_STAGE==0 && start==1){
-        printf("(Begin)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
+        //printf("(Begin)LAST_STAGE=%d, SOUND_BOOL=%d\n", LAST_STAGE, SOUND_BOOL);
         LAST_STAGE = CURR_STAGE;
         CURR_STAGE = 1;
     }
@@ -801,24 +825,24 @@ void spe_key(int key, int x, int y){
             FPS=FPS + KEY_DELTA_V;
             break;
         case GLUT_KEY_LEFT:
-            printf("%d, %d\t", GLUT_KEY_LEFT, car.slrIndex);
+            //printf("%d, %d\t", GLUT_KEY_LEFT, car.slrIndex);
             if(car.slrIndex>=0){
                 car.set_index(car.slrIndex - 17);
                 if(car.slrIndex<0){
                     car.set_index(0);
                 }
             }
-            printf("%d\n", car.slrIndex);
+            //printf("%d\n", car.slrIndex);
             break;
         case GLUT_KEY_RIGHT:
-            printf("%d, %d\t", GLUT_KEY_RIGHT, car.slrIndex);
+            //printf("%d, %d\t", GLUT_KEY_RIGHT, car.slrIndex);
             if(car.slrIndex<=34){
                 car.set_index(car.slrIndex + 17);
                 if(car.slrIndex>34){
                     car.set_index(34);
                 }
             }
-            printf("%d\n", car.slrIndex);
+            //printf("%d\n", car.slrIndex);
             //car.draw();
             break;
         default:
@@ -839,14 +863,14 @@ void processKeys(unsigned char key, int x, int y) {
 
                 score=0;
                 level=0;
-                car.reset(0, 0, 0);
+                car.reset(0, 17, 0);
                 car1.reset(1, 0, 0);
                 car2.reset(1, 0, +33);
-                car3.reset(1, 0, +66);
+                car3.reset(1, 34, +66);
             }
             break;
         case 27:
-            printf("27 key presed!");
+            //printf("27 key presed!");
             PlaySound(NULL, 0,0);
             exit(0);
             break;
