@@ -1063,6 +1063,10 @@ void score_file(){
     //my_file.open("test.txt", ios::out);
     if (!my_file) {
             cout << "No such file"<<endl;
+            fstream my_file;
+            my_file.open(user_level_file, ios::out);
+            my_file<<"0";
+            my_file.close();
     }
     else {
         char ch;
