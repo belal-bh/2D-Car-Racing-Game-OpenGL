@@ -82,6 +82,7 @@ int lrIndex = 0;
 // variable for showing level up score
 int b_indx=100;
 int p_score=100;
+int level_bar=381;
 
 //For Display TEXT
 const int font1=(int)GLUT_BITMAP_TIMES_ROMAN_24;
@@ -615,6 +616,16 @@ void startGame(){
     // Bottom section end
     //Road Divider end
 
+    //level bar draw when level up
+    glBegin(GL_POLYGON);
+        glVertex2f(18,level_bar);
+        glVertex2f(18,level_bar+2);
+        glVertex2f(67,level_bar+2);
+        glVertex2f(67,level_bar);
+    glEnd();
+
+    level_bar--;
+
     // rider car
     car.draw();
 
@@ -691,9 +702,11 @@ void startGame(){
         if(last!=level){
             level = score /LEVEL_UP_SCORE;
             FPS=FPS+LEVEL_DELTA_V;
+            level_bar=400;
             b_indx=0;
             p_score=score;
             car.update_color();
+
         }
     }
     char level_buffer [50];
@@ -888,6 +901,7 @@ void startScreen(){
         help_rel_posy = help_rel_posy - score_board_h;
         p_score=100;
         b_indx=100;
+        level_bar=381;
     }
 
     //Help Menu Place Holder
@@ -1115,10 +1129,7 @@ int main(int argc, char *argv[])
 
 /*
 glutInitDisplayMode:
-
 glutInitDisplayMode - inits display mode
-
 GLUT_DOUBLE - allows for display on the double buffer window
-
 GLUT_RGBA - shows color (Red, green, blue) and an alpha
 */
