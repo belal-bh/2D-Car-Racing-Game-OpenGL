@@ -82,6 +82,7 @@ int lrIndex = 0;
 // variable for showing level up score
 int b_indx=100;
 int p_score=100;
+int level_bar=381;
 
 //For Display TEXT
 const int font1=(int)GLUT_BITMAP_TIMES_ROMAN_24;
@@ -615,6 +616,16 @@ void startGame(){
     // Bottom section end
     //Road Divider end
 
+    //level bar draw when level up
+    glBegin(GL_POLYGON);
+        glVertex2f(18,level_bar);
+        glVertex2f(18,level_bar+2);
+        glVertex2f(67,level_bar+2);
+        glVertex2f(67,level_bar);
+    glEnd();
+
+    level_bar--;
+
     // rider car
     car.draw();
 
@@ -694,6 +705,7 @@ void startGame(){
             b_indx=0;
             p_score=score;
             car.update_color();
+            level_bar=400;
         }
     }
     char level_buffer [50];
@@ -856,7 +868,7 @@ void startScreen(){
         }
 
 
-        int score_board_h = 10-2;
+        int score_board_h = 10;
         int score_board_rel_posy = title_posy - 20;
 
         //Score Board Place Holder
@@ -877,17 +889,21 @@ void startScreen(){
         renderBitmapString(43,score_board_rel_posy+score_board_h,(void *)font1,"GAME OVER");
         glColor3f(0.000, 0.000, 0.000);
         char buffer2 [50];
-        sprintf (buffer2, "Your Score is : %d", score);
-        renderBitmapString(41,score_board_rel_posy+score_board_h-4,(void *)font1,buffer2);
+        sprintf (buffer2, "CURRENT SCORE : %d", score);
+        renderBitmapString(41-2,score_board_rel_posy+score_board_h-4,(void *)font1,buffer2);
         glColor3f(0.000, 0.000, 0.000);
         char buffer3 [50];
-        sprintf (buffer3, "Max Level is : %d", max(heighest_score,atoi(str.c_str())));
-        renderBitmapString(41,score_board_rel_posy+score_board_h-8,(void *)font1,buffer3);
+        sprintf (buffer3, "CURRENT LEVEL : %d", level);
+        renderBitmapString(41-2,score_board_rel_posy+score_board_h-8,(void *)font1,buffer3);
+        char buffer4 [50];
+        sprintf (buffer4, "THE HIGHEST LEVEL : %d", max(heighest_score,atoi(str.c_str())));
+        renderBitmapString(41-4,score_board_rel_posy+score_board_h-12,(void *)font1,buffer4);
 
         // update relative help box
         help_rel_posy = help_rel_posy - score_board_h;
         p_score=100;
         b_indx=100;
+        level_bar=381;
     }
 
     //Help Menu Place Holder
@@ -1115,10 +1131,7 @@ int main(int argc, char *argv[])
 
 /*
 glutInitDisplayMode:
-
 glutInitDisplayMode - inits display mode
-
 GLUT_DOUBLE - allows for display on the double buffer window
-
 GLUT_RGBA - shows color (Red, green, blue) and an alpha
 */
