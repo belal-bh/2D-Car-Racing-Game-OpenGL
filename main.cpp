@@ -449,7 +449,7 @@ class Tree{
 
         void reset(){
             // randomly calculate y
-            int rand_y = rand()%80;
+            int rand_y = rand()%90;
             y = -1*rand_y;
             if(zone==1){
                 int rand_x = rand()%7;
